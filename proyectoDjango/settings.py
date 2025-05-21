@@ -213,18 +213,34 @@ AUTH_USER_MODEL = 'usuarios.CustomUser'
 # CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 
 # DESPLIEGUE RENDER
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486')
+CELERY_BROKER_URL = os.environ.get(
+    'CELERY_BROKER_URL',
+    'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486'
+)
+
+CELERY_RESULT_BACKEND = os.environ.get(
+    'CELERY_RESULT_BACKEND',
+    'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486'
+)
+
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'ssl': {
+        'ssl_cert_reqs': ssl.CERT_NONE,  # También puedes usar CERT_REQUIRED si tienes certificado válido
+    }
+}
+
+CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {
+    'ssl': {
+        'ssl_cert_reqs': ssl.CERT_NONE,
+    }
+}
+
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Guayaquil'
 CELERY_WORKER_POOL = 'prefork' # para windows y prefork para linux
-CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'ssl_cert_reqs': ssl.CERT_NONE
-}
-
 
 from celery.schedules import crontab
 from datetime import timedelta
