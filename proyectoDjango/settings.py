@@ -222,10 +222,9 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Guayaquil'
 CELERY_WORKER_POOL = 'prefork' # para windows y prefork para linux
 CELERY_BROKER_TRANSPORT_OPTIONS = {
-    'ssl': {
-        'ssl_cert_reqs': ssl.CERT_NONE  # <-- aquí dices que no valide certificado SSL
-    }
+    'ssl_cert_reqs': ssl.CERT_NONE
 }
+
 
 from celery.schedules import crontab
 from datetime import timedelta
