@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os, dj_database_url
+import ssl
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -222,7 +223,7 @@ CELERY_TIMEZONE = 'America/Guayaquil'
 CELERY_WORKER_POOL = 'prefork' # para windows y prefork para linux
 CELERY_BROKER_TRANSPORT_OPTIONS = {
     'ssl': {
-        'ssl_cert_reqs': None
+        'ssl_cert_reqs': ssl.CERT_NONE  # <-- aquí dices que no valide certificado SSL
     }
 }
 
