@@ -1,0 +1,7 @@
+.qodo
+__pycache__/
+venv/
+*.bak
+*.dat
+*.dir
+

@@ -1,0 +1,215 @@
+{% extends "inventario_principal/base.html" %}
+
+{% block titulo %}Registrar Productos{% endblock titulo %}
+{% load static %}
+
+{% block contenido %}
+<!-- Page Heading -->
+<div class="mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Registrar Productos</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: transparent; padding: 0; margin: 0;">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard:inicio' %}"><i class="fas fa-home mr-2"></i>Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'articulos:listado_articulos' %}">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Registrar Producto</li>
+        </ol>
+    </nav>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center card-csslist">
+        <h6 class="m-0 font-weight-bold text-primary h5"><i class="fas fa-edit mr-2"></i>Registro de Productos</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-3">
+                <!-- Card para la imagen -->
+                <div class="card mb-4 border-left-secondary border-1 shadow-sm">
+                    <div class="card-body text-center">
+                        <div id="loading-message" style="display: none; color: #666; font-style: italic; font-weight: bold;">
+                            Cargando...
+                        </div>
+                        <img src="{% static 'img/product.png' %}" alt="Producto" id="product-image" class="img-fluid" style="max-width: 180px; max-height: 180px;">
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card mb-4 border-left-secondary border-1 shadow-sm">
+                    <div class="card-body">
+                        {% load crispy_forms_tags %}
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-box input-iconfas"></i>
+                                        {{ form.descripcion_articulo | as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-barcode input-iconfas"></i>
+                                        {{ form.codigoarticulo | as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {{ form.idcategoriaarticulo | as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.tiene_fecha_caduca }}
+                                        <label class="custom-control-label" for="id_tiene_fecha_caduca">¿Tiene fecha de caducidad?</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form.manejo_por_lotes }}
+                                        <label class="custom-control-label" for="id_manejo_por_lotes">¿Se maneja por lotes?</label>
+                                    </div>
+                                    {% if form.manejo_por_lotes.errors %}
+                                        <small class="text-danger" style="font-weight: bold;">{{ form.manejo_por_lotes.errors|first }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    {{ form.idgiva | as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-percent input-iconfas"></i>
+                                        {{ form.utilidad | as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-dollar-sign input-iconfas"></i>
+                                        {{ form.costo | as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-dollar-sign input-iconfas"></i>
+                                        {{ form.precioventa | as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-exclamation-triangle input-iconfas"></i>
+                                        {{ form.stock_minimo | as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="input-with-iconfas">
+                                        <i class="fas fa-exclamation-triangle input-iconfas"></i>
+                                        {{ form.stock_maximo | as_crispy_field }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                {% comment %} <div class="form-group col-md-4">
+                                    {{ form.stock | as_crispy_field }}
+                                </div> {% endcomment %}
+                                <div class="form-group col-md-6">
+                                    {{ form.estado_articulo | as_crispy_field }}
+                                </div>
+                            </div>
+                            {{ form.imagen | as_crispy_field }}
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                                <button type="reset" class="btn btn-sm btn-warning ml-2">
+                                    <i class="fas fa-eraser"></i> Limpiar
+                                </button>  
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}
+
+{% block script %}
+    <!-- Manejar el evento de cambio en el campo de precio venta -->
+    <script>
+        $(document).ready(function() {
+            $('#id_utilidad').on('input', actualizarPrecioVenta);
+            $('#id_costo').on('input', actualizarPrecioVenta);
+
+            function actualizarPrecioVenta() {
+                var utilidad = parseFloat($('#id_utilidad').val()) || 0;
+                var costo = parseFloat($('#id_costo').val()) || 0;
+                var precioVenta = costo / (1 - utilidad / 100);
+
+                // Actualizar el valor del campo de precio de venta
+                $('#id_precioventa').val(precioVenta.toFixed(2));
+            }
+        });
+    </script>
+
+    <!-- Manejar el cambio en el input de la imagen -->
+    <script>
+        $(document).ready(function() {
+            $('#id_imagen').change(function() {
+                const file = this.files[0];
+                const imageElement = $('#product-image');
+                const loadingMessage = $('#loading-message'); // Asegúrate de que este elemento exista en tu HTML
+                const defaultImage = "{% static 'img/product.png' %}";
+
+                if (file) {
+                    // Mostrar el mensaje de "Cargando..."
+                    loadingMessage.show();
+                    imageElement.hide();
+
+                    // Simular un tiempo de carga (2 segundos)
+                    setTimeout(function() {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            loadingMessage.hide();
+                            imageElement.attr('src', e.target.result).show();
+                        };
+                        reader.readAsDataURL(file);
+                    }, 2000); // 2000 milisegundos = 2 segundos
+                } else {
+                    // Restablecer la imagen por defecto
+                    loadingMessage.hide();
+                    imageElement.attr('src', defaultImage);
+                }
+            });
+        });
+    </script>
+
+    <!-- Manejar el cambio en checkbox de manejo por lotes -->
+    <script>
+        $(document).ready(function () {
+            // Obtener los checkboxes
+            let tieneFechaCaduca = $("#id_tiene_fecha_caduca");
+            let manejoPorLotes = $("#id_manejo_por_lotes");
+
+            // Evento al cambiar "tiene_fecha_caduca"
+            tieneFechaCaduca.change(function () {
+                if (this.checked) {
+                    manejoPorLotes.prop("checked", true);
+                }
+            });
+        });
+    </script>
+
+    <!-- Mejorar diseño campo seleccion archivo -->
+    <script src="{% static 'js/components/campo_file.js' %}"></script>
+{% endblock script %}
+

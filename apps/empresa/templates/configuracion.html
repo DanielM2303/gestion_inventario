@@ -1,0 +1,194 @@
+{% extends "inventario_principal/base.html" %}
+
+{% block titulo %}Configuración{% endblock titulo %}
+{% load static %}
+
+{% block contenido %}
+    <!-- Page Heading -->
+    <div class="mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Perfil de la Empresa</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color: transparent; padding: 0; margin: 0;">
+                <li class="breadcrumb-item"><a href="{% url 'dashboard:inicio' %}"><i class="fas fa-home mr-2"></i>Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Perfil Empresa</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center card-csslist">
+            <h6 class="m-0 font-weight-bold text-primary h5"><i class="fas fa-fw fa-cog mr-2"></i>Configuración de la Empresa</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <!-- Card para la imagen -->
+                    <div class="card mb-4 border-left-secondary shadow-sm border-1">
+                        <div class="card-body text-center">
+                            {% if empresa.logo %}
+                                <img id="imagenPreview" src="{{ empresa.logo.url }}" alt="{{ empresa.nombrecomercial }}" class="img-fluid" style="width: 200px; height: 110px;">
+                            {% else %}
+                                <img src="{{ empresa.logo }}" alt="{{ empresa.nombrecomercial }}" class="img-fluid">
+                            {% endif %}
+                            <h5 class="text-muted mt-3">{{ empresa.nombrecomercial }}</h5>
+                            <p>{{ empresa.correo_empresa }}</p>
+                        </div>                    
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <!-- Card para el formulario -->
+                    <div class="card mb-4 border-left-secondary border-1 shadow-sm">
+                        <div class="card-body">
+                            {% load crispy_forms_tags %}
+                            <form method="POST" id="miFormulario" enctype="multipart/form-data">
+                                {% csrf_token %}
+                
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#detalles">
+                                            <i class="fas fa-info-circle mr-2"></i>Detalles
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#direccion">
+                                            <i class="fas fa-map-marked-alt mr-2"></i>Dirección
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content mt-3">
+                                    <div id="detalles" class="tab-pane container active">
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-id-card input-iconfas"></i>
+                                                {{ form.RUC | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-building input-iconfas"></i>
+                                                {{ form.razonsocial | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-signature input-iconfas"></i>
+                                                {{ form.nombrecomercial | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-envelope input-iconfas"></i>
+                                                {{ form.correo_empresa | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-phone input-iconfas"></i>
+                                                {{ form.telefono_empresa | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-mobile-alt input-iconfas"></i>
+                                                {{ form.celular_empresa | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-id-card input-iconfas"></i>
+                                                {{ form.cedularepresentantelegal | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-user-tie input-iconfas"></i>
+                                                {{ form.nombrerepresentantelegal | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        {{ form.logo | as_crispy_field }}
+                                    </div>
+
+                                    <div id="direccion" class="tab-pane container">
+                                        {{ form.idprovincia | as_crispy_field }}
+                                        {{ form.idciudad | as_crispy_field }}
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-map-marker-alt input-iconfas"></i>
+                                                {{ form.direccion1 | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-with-iconfas">
+                                                <i class="fas fa-map-marker-alt input-iconfas"></i>
+                                                {{ form.direccion2 | as_crispy_field }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                                <div class="d-flex justify-content-end flex-wrap mt-3">
+                                    <button type="button" class="btn btn-sm btn-primary mb-2" id="botonModificar">
+                                        <i class="fas fa-save"></i> Guardar
+                                    </button>
+                                    <button type="reset" class="btn btn-sm btn-warning ml-2 mb-2">
+                                        <i class="fas fa-undo"></i> Deshacer
+                                    </button>   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock contenido %}
+
+{% block script %}
+    <!-- SweetAlert para confirmar la modificación -->
+    <script>
+        document.getElementById('botonModificar').addEventListener('click', function () {
+            Swal.fire({
+                title: "¿Estás seguro de modificar?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#4169E1"
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, enviar el formulario
+                    document.getElementById('miFormulario').submit();
+                }
+            });
+        });
+    </script>
+
+    <!-- Manejar cambio de seleccion de ciudad -->
+    <script>
+        $(document).ready(function () {
+            $('#id_idprovincia').change(function () {
+                var provinciaId = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: `/empresa/ciudades_por_provincia/${provinciaId}/`,
+                    dataType: 'json',
+                    success: function (data) {
+                        var ciudadDropdown = $('#id_idciudad');
+                        ciudadDropdown.empty();
+                        ciudadDropdown.append('<option value="">Seleccione una ciudad</option>');
+                        $.each(data.ciudades, function (key, value) {
+                            ciudadDropdown.append('<option value="' + value.pk + '">' + value.nombre_ciudad + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Mejorar diseño campo seleccion archivo -->
+    <script src="{% static 'js/components/campo_file.js' %}"></script>
+{% endblock script %}
