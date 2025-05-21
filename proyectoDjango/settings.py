@@ -226,8 +226,8 @@ from datetime import timedelta
 CELERY_BEAT_SCHEDULE = {
     'verificar_estado_lotes_diario': {
         'task': 'apps.notificaciones.tasks.verificar_estado_lotes',
-        #'schedule': timedelta(seconds=3), 
-        'schedule': crontab(minute=0, hour=11),
+        'schedule': timedelta(seconds=3), 
+        #'schedule': crontab(minute=0, hour=11),
     },
 }
 # python -m celery -A proyectoDjango.celery worker --loglevel=info
