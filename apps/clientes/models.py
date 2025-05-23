@@ -2,15 +2,12 @@ from django.db import models
 
 # Clase Tipo de Documento
 class Tipodocumentos(models.Model):
-    # Atributos
     idtipodocumento = models.AutoField(primary_key=True)
     descripcion_tipodocumento = models.CharField(max_length=25, verbose_name="Descripción")
 
-    # Representación del objeto
     def __str__(self):
         return self.descripcion_tipodocumento
     
-    # Opciones adicionales
     class Meta:
         db_table="tipodocumentos"
         verbose_name="Tipo Documento"
@@ -18,7 +15,6 @@ class Tipodocumentos(models.Model):
     
 # Clase Cliente
 class Clientes(models.Model):
-    # Atributos
     idcliente = models.AutoField(primary_key=True)
     idtipodocumento = models.ForeignKey(Tipodocumentos, on_delete=models.PROTECT, verbose_name="Tipo de Identificación")
     numerodocumento = models.CharField(max_length=13, unique=True, verbose_name="Número de Identificación")
@@ -29,11 +25,9 @@ class Clientes(models.Model):
     celular_cliente = models.CharField(max_length=10, null=True, blank=True, verbose_name="Celular")
     estado_cliente = models.IntegerField(default=1, verbose_name="Estado")
 
-    # Representación del objeto
     def __str__(self):
         return self.nombre_cliente
     
-    # Opciones adicionales
     class Meta:
         ordering = ['-estado_cliente']
         db_table="clientes"

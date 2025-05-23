@@ -4,14 +4,10 @@ from django import forms
 
 # Clase Formulario Grupo (roles)
 class GroupForm(ModelForm):
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(GroupForm, self).__init__(*args, **kwargs)
-        
-        # Personalización de los widgets
         self.fields['name'].widget.attrs.update({'placeholder': 'Ingresa el nombre'})
 
-    # Opciones adicionales
     class Meta:
         model = Group
         fields = ['name']
@@ -20,16 +16,6 @@ class GroupForm(ModelForm):
 
 # Clase Formulario Permiso (permisos de usuarios en roles)
 class PermisoForm(forms.ModelForm):
-    # Opciones adicionales
-    class Meta:
-        model = Group
-        fields = ['permissions']
-        widgets = {'permissions': forms.CheckboxSelectMultiple(
-                attrs={'class': 'custom-control-input'}
-            )
-        }
-    
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(PermisoForm, self).__init__(*args, **kwargs)
         
@@ -38,3 +24,12 @@ class PermisoForm(forms.ModelForm):
         choices = [(permiso.id, permiso.name) for permiso in permisos_filtrados]  # Crea una lista de tuplas (valor, etiqueta)
         self.fields['permissions'].queryset = permisos_filtrados
         self.fields['permissions'].choices = choices
+
+    class Meta:
+        model = Group
+        fields = ['permissions']
+        widgets = {'permissions': forms.CheckboxSelectMultiple(
+                attrs={'class': 'custom-control-input'}
+            )
+        }
+    

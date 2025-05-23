@@ -21,23 +21,36 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
-                    <!-- Card para la imagen -->
-                    <div class="card mb-4 border-left-secondary shadow-sm border-1">
-                        <div class="card-body text-center">
+
+                <!-- Card para la imagen/logo -->
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm border-1" style="border-radius: 10px;">
+                        <div class="card-body text-center p-4">
                             {% if empresa.logo %}
-                                <img id="imagenPreview" src="{{ empresa.logo.url }}" alt="{{ empresa.nombrecomercial }}" class="img-fluid" style="width: 200px; height: 110px;">
+                                <!-- Si existe logo -->
+                                <img id="imagenPreview" 
+                                    src="{{ empresa.logo.url }}" 
+                                    alt="{{ empresa.nombrecomercial }}" 
+                                    class="img-fluid rounded" 
+                                    style="max-width: 250px; max-height: 140px; object-fit: contain; border: 1px solid #eee; padding: 5px;">
                             {% else %}
-                                <img src="{{ empresa.logo }}" alt="{{ empresa.nombrecomercial }}" class="img-fluid">
+                                <!-- Icono cuando NO hay logo -->
+                                <div class="bg-light rounded p-4 mb-3" style="border: 2px dashed #ddd;">
+                                    <i class="fas fa-building fa-3x text-secondary"></i>
+                                    <p class="text-muted mt-2 mb-0">Sin logo registrado</p>
+                                </div>
                             {% endif %}
-                            <h5 class="text-muted mt-3">{{ empresa.nombrecomercial }}</h5>
-                            <p>{{ empresa.correo_empresa }}</p>
-                        </div>                    
+                            <!-- Texto de ayuda -->
+                            <small class="text-muted mt-3 d-block" style="font-size: 0.75rem;">
+                                Formatos soportados: JPG, PNG (Max. 4MB)
+                            </small>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <!-- Card para el formulario -->
-                    <div class="card mb-4 border-left-secondary border-1 shadow-sm">
+
+                <!-- Card para el formulario -->
+                <div class="col-md-8">
+                    <div class="card mb-4 border-1 shadow-sm">
                         <div class="card-body">
                             {% load crispy_forms_tags %}
                             <form method="POST" id="miFormulario" enctype="multipart/form-data">
@@ -60,6 +73,7 @@
                                 <!-- Tab panes -->
                                 <div class="tab-content mt-3">
                                     <div id="detalles" class="tab-pane container active">
+                                        {{ form.logo | as_crispy_field }}
                                         <div class="form-group">
                                             <div class="input-with-iconfas">
                                                 <i class="fas fa-id-card input-iconfas"></i>
@@ -108,7 +122,6 @@
                                                 {{ form.nombrerepresentantelegal | as_crispy_field }}
                                             </div>
                                         </div>
-                                        {{ form.logo | as_crispy_field }}
                                     </div>
 
                                     <div id="direccion" class="tab-pane container">

@@ -5,19 +5,25 @@ from decimal import Decimal
 
 # Clase Formulario Articulo
 class ArticulosForm(ModelForm):
-    # Atributos
     ESTADO_CHOICES = ((0, 'Inactivo'), (1, 'Activo'),)
-    estado_articulo = forms.ChoiceField(choices=ESTADO_CHOICES, label="Estado", initial=1)
+    estado_articulo = forms.ChoiceField(
+        choices=ESTADO_CHOICES, 
+        label="Estado", 
+        initial=1
+    )
 
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(ArticulosForm, self).__init__(*args, **kwargs)
 
         # Personalización de los widgets
         self.fields['idcategoriaarticulo'].empty_label = "Seleccione una categoría"
+        self.fields['idnivelgrasa'].empty_label = "Seleccione un nivel"
+        self.fields['idnivelazucar'].empty_label = "Seleccione un nivel"
+        self.fields['idnivelsal'].empty_label = "Seleccione un nivel"
         self.fields['idgiva'].empty_label = "Seleccione un tipo"
         self.fields['descripcion_articulo'].widget.attrs.update({'placeholder': 'Ingresa el nombre del producto'})
         self.fields['codigoarticulo'].widget.attrs.update({'placeholder': 'Ingresa el código del producto'})
+        self.fields['tiene_semaforo'].widget.attrs.update({'class': 'custom-control-input'})
         self.fields['tiene_fecha_caduca'].widget.attrs.update({'class': 'custom-control-input'})
         self.fields['manejo_por_lotes'].widget.attrs.update({'class': 'custom-control-input'})
         self.fields['utilidad'].widget.attrs.update({'min': '0', 'max': '100', 'placeholder': 'Ingresa la utilidad'})
@@ -35,8 +41,8 @@ class ArticulosForm(ModelForm):
         utilidad = self.cleaned_data.get('utilidad')
         if int(utilidad) < 0:
             raise ValidationError("El porcentaje de utilidad no puede ser negativo")
-        if int(utilidad) > 100:
-            raise ValidationError("El porcentaje de utilidad no puede ser mayor que 100")
+        if int(utilidad) > 99:
+            raise ValidationError("El porcentaje de utilidad no puede ser mayor que 99")
         return utilidad
 
     def clean_costo(self):
@@ -84,7 +90,7 @@ class ArticulosForm(ModelForm):
             raise ValidationError(errors)
         return stock_maximo
 
-    # Opciones adicionales
     class Meta:
         model = Articulos
-        fields = ['codigoarticulo', 'idcategoriaarticulo', 'imagen', 'descripcion_articulo', 'tiene_fecha_caduca', 'manejo_por_lotes', 'costo', 'precioventa', 'stock_minimo', 'stock_maximo', 'idgiva', 'utilidad', 'estado_articulo']
+        fields = '__all__'
+        exclude = ['idarticulo', 'stock']

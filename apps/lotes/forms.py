@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 
 # Clase Formulario Lote
 class LotesForm(forms.ModelForm):
-    # Opciones adicionales
     class Meta:
         model = Lotes
         fields = ['numero_lote', 'fecha_fabricacion', 'fecha_caducidad', 'cantidad']
@@ -14,7 +13,6 @@ class LotesForm(forms.ModelForm):
             'cantidad': forms.NumberInput(attrs={'readonly': 'readonly', 'style': 'cursor: not-allowed;'}),
         }
 
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         

@@ -4,11 +4,9 @@ from django.forms import ModelForm, ValidationError
 
 # Clase Formulario Cliente
 class ClienteForm(ModelForm):
-    # Atributos
     ESTADO_CHOICES = ((0, 'Inactivo'), (1, 'Activo'),)
     estado_cliente = forms.ChoiceField(choices=ESTADO_CHOICES, label='Estado', initial=1)
 
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(ClienteForm, self).__init__(*args, **kwargs)
         
@@ -40,7 +38,7 @@ class ClienteForm(ModelForm):
                 raise ValidationError("El pasaporte debe contener entre 10 y 13 dígitos numéricos")
         return numerodocumento
 
-    # Opciones adicionales
     class Meta:
         model = Clientes 
-        fields = ['nombre_cliente', 'idtipodocumento', 'numerodocumento', 'direccion_cliente', 'correo_cliente', 'telefono_cliente', 'celular_cliente', 'estado_cliente']
+        fields = '__all__'
+        exclude = ['idcliente']

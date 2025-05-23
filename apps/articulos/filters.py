@@ -6,13 +6,10 @@ from django.forms import NumberInput
 
 # Clase Filtro Articulo
 class ArticulosFilter(django_filters.FilterSet):
-    # Atributos
     descripcion_articulo = django_filters.CharFilter(
         lookup_expr='icontains', 
         label="Nombre del Producto:", 
-        widget=forms.TextInput(
-            attrs={'placeholder': 'Buscar por nombre...'}
-        ),
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar por nombre...'}),
     )
     idcategoriaarticulo = django_filters.ModelChoiceFilter(
         queryset=Categoriaarticulos.objects.all(), 
@@ -28,17 +25,13 @@ class ArticulosFilter(django_filters.FilterSet):
         field_name="stock", 
         lookup_expr="gte", 
         label="Rango Mínimo:", 
-        widget=NumberInput(
-            attrs={'placeholder': 'Stock', 'min': 0}
-        ),
+        widget=NumberInput(attrs={'placeholder': 'Stock', 'min': 0}),
     )
     stock_max = django_filters.NumberFilter(
         field_name="stock", 
         lookup_expr="lte", 
         label="Rango Máximo:", 
-        widget=NumberInput(
-            attrs={'placeholder': 'Stock', 'min': 0}
-        ),
+        widget=NumberInput(attrs={'placeholder': 'Stock', 'min': 0}),
     )
     estado_articulo = django_filters.ChoiceFilter(
         choices=[(1, "Activo"), (0, "Inactivo")], 
@@ -46,7 +39,6 @@ class ArticulosFilter(django_filters.FilterSet):
         empty_label="Todos los estados"
     )
 
-    # Opciones adicionales
     class Meta:
         model = Articulos
         fields = ['descripcion_articulo', 'idcategoriaarticulo', 'idgiva', 'estado_articulo']

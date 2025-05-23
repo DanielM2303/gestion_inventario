@@ -4,7 +4,6 @@ from django import forms
 
 # Clase Filtro Proveedor
 class ProveedoresFilter(django_filters.FilterSet):
-    # Atributos
     nombre_proveedor = django_filters.CharFilter(
         lookup_expr='icontains', 
         label="Nombre del Proveedor:", 
@@ -18,7 +17,6 @@ class ProveedoresFilter(django_filters.FilterSet):
         empty_label="Todos los estados"
     )
 
-    # opciones adicionales
     class Meta:
         model = Proveedores
         fields = ['nombre_proveedor', 'estado_proveedor']

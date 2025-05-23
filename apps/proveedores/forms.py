@@ -4,11 +4,9 @@ from django import forms
 
 # Clase Formulario Proveedor
 class ProveedorForm(ModelForm):
-    # Atributos
     ESTADO_CHOICES = ((0, 'Inactivo'), (1, 'Activo'),)
     estado_proveedor = forms.ChoiceField(choices=ESTADO_CHOICES, label='Estado', initial=1)
 
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(ProveedorForm, self).__init__(*args, **kwargs)
         
@@ -30,7 +28,7 @@ class ProveedorForm(ModelForm):
             raise ValidationError("El RUC debe terminar en '001'")
         return ruc_proveedor
 
-    # Opciones adicionales
     class Meta:
         model = Proveedores
-        fields = ['nombrecontacto_proveedor', 'nombre_proveedor', 'ruc_proveedor', 'direccion_proveedor', 'correo_proveedor', 'telefono_proveedor', 'celular_proveedor', 'estado_proveedor']
+        fields = '__all__'
+        exclude = ['idproveedor']

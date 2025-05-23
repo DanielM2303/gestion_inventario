@@ -8,6 +8,7 @@ from django.contrib import messages
 from datetime import datetime
 from decimal import Decimal
 import json
+from django.urls import reverse
 
 # Vista Registro de Compra
 @login_required
@@ -118,5 +119,5 @@ def registrar_compras(request):
                         nuevo_detalle_compra_lote.save()
 
         messages.success(request, "¡Registro de Compra Exitoso!")
-        return redirect('compras:listado_compras')
+        return redirect('compras:registrar_compras')
     return render(request, 'registrar_compras.html', contexto)

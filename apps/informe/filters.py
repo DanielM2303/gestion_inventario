@@ -11,7 +11,6 @@ User = get_user_model()
 
 # Clase Filtro Reporte Ventas
 class ReporteVentasFilter(django_filters.FilterSet):
-    # Atributos
     idcliente = django_filters.ModelChoiceFilter(
         queryset=Clientes.objects.all(), 
         label="Cliente:", 
@@ -39,7 +38,6 @@ class ReporteVentasFilter(django_filters.FilterSet):
         )
     )
     
-    # Opciones adicionales
     class Meta:
         model = Ventas
         fields = ['idcliente', 'user']
@@ -47,7 +45,6 @@ class ReporteVentasFilter(django_filters.FilterSet):
 
 # Clase Filtro Reporte Compras
 class ReporteComprasFilter(django_filters.FilterSet):
-    # Atributos
     idproveedor = django_filters.ModelChoiceFilter(
         queryset=Proveedores.objects.all(), 
         label="Proveedor:", 
@@ -75,7 +72,6 @@ class ReporteComprasFilter(django_filters.FilterSet):
         )
     )
     
-    # Opciones adicionales
     class Meta:
         model = Compras
         fields = ['idproveedor', 'user']
@@ -83,7 +79,6 @@ class ReporteComprasFilter(django_filters.FilterSet):
 
 # Clase Filtro Reporte Inventario
 class ReporteInventarioFilter(django_filters.FilterSet):
-    # Atributos
     descripcion_articulo = django_filters.ModelChoiceFilter(
         queryset=Articulos.objects.all(), 
         label="Producto:", 
@@ -100,7 +95,6 @@ class ReporteInventarioFilter(django_filters.FilterSet):
         empty_label="Todos los estados"
     )
     
-    # Opciones adicionales
     class Meta:
         model = Articulos
         fields = ['descripcion_articulo', 'idcategoriaarticulo', 'estado_articulo']

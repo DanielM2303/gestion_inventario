@@ -4,7 +4,6 @@ from django import forms
 
 # Clase Formulario Empresa
 class EmpresaForm(ModelForm):
-    # Atributos
     idprovincia = forms.ModelChoiceField(
         queryset = Provincias.objects.all().order_by('nombre_provincia'), 
         label='Provincia', 
@@ -14,6 +13,7 @@ class EmpresaForm(ModelForm):
         ), 
         empty_label="Seleccione una provincia"
     )
+
     idciudad = forms.ModelChoiceField(
         queryset=Ciudades.objects.none(), 
         label='Ciudad', 
@@ -37,7 +37,6 @@ class EmpresaForm(ModelForm):
             raise ValidationError("La cedula debe contener solo 10 dígitos numéricos")
         return ceduRepr
     
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(EmpresaForm, self).__init__(*args, **kwargs)
 
@@ -74,8 +73,8 @@ class EmpresaForm(ModelForm):
             )
             self.fields['idprovincia'].widget.attrs['disabled'] = False
     
-    # Opciones adicionales
     class Meta:
         model = Empresas
-        fields = ['RUC', 'razonsocial', 'nombrecomercial', 'idprovincia', 'idciudad', 'direccion1', 'direccion2', 'correo_empresa', 'telefono_empresa', 'celular_empresa', 'cedularepresentantelegal', 'nombrerepresentantelegal', 'logo']
+        fields = '__all__'
+        exclude = ['idempresa', 'estado_empresa', 'rutaarchivogenerados']
     

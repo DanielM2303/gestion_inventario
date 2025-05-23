@@ -5,7 +5,6 @@ from django import forms
 
 # Clase Filtro Usuario
 class CustomUserFilter(django_filters.FilterSet):
-    # Atributos
     username = django_filters.CharFilter(
         lookup_expr='icontains', 
         label="Nombre de Usuario:", 
@@ -24,7 +23,6 @@ class CustomUserFilter(django_filters.FilterSet):
         empty_label="Todos los estados"
     ) 
 
-    # Opciones adicionales
     class Meta:
         model = CustomUser
         fields = ['username', 'groups', 'is_active']

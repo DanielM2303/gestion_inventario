@@ -7,6 +7,7 @@ from apps.compras.models import Compras
 from apps.usuarios.filters import CustomUserFilter
 from apps.usuarios.forms import *
 from django.contrib import messages
+from django.urls import reverse
 
 # Vista perfil de usuario
 @login_required
@@ -65,7 +66,12 @@ def registrar_usuarios(request):
             if grupo_seleccionado:
                 user.groups.set([grupo_seleccionado])
             messages.success(request, "¡Registro de Usuario Exitoso!")
+            if 'guardar_continuar' in request.POST:
+                return redirect(reverse("usuarios:registrar_usuarios"))
             return redirect('usuarios:listado_usuarios')
+        
+        else:
+            messages.error(request, "Error en el registro. Verifique los datos ingresados.")
     
     return render(request, 'usuarios/registrar_usuarios.html', {"form": form})
 
@@ -89,7 +95,11 @@ def editar_usuarios(request, pk_id):
                 if grupos_seleccionado:
                     user.groups.set([grupos_seleccionado])
                 messages.success(request, "¡Información general del usuario modificada correctamente!")
+                if 'editar_continuar' in request.POST:
+                    return redirect(reverse("usuarios:editar_usuarios", args=[pk_id]))
                 return redirect('usuarios:listado_usuarios')
+            else:
+                messages.error(request, "Error en la modificación. Verifique los datos ingresados.")
         
         # Actualizar contraseña
         elif 'user_change_password' in request.POST:
@@ -99,6 +109,8 @@ def editar_usuarios(request, pk_id):
                 usuario.save()
                 messages.success(request, 'Contraseña del usuario actualizada con éxito.')
                 return redirect('usuarios:listado_usuarios')
+            else:
+                messages.error(request, 'Errores en el formulario de cambio de contraseña.')
     
     return render(request, 'usuarios/editar_usuarios.html', {'form': form, 'user_password_form': password_form,})
 

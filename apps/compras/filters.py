@@ -8,7 +8,6 @@ User = get_user_model()
 
 # Clase Filtro Compra
 class ComprasFilter(django_filters.FilterSet):
-    # Atributos
     idproveedor = django_filters.ModelChoiceFilter(
         queryset=Proveedores.objects.all(), 
         label="Proveedor:", 
@@ -57,7 +56,6 @@ class ComprasFilter(django_filters.FilterSet):
         )
     )
     
-    # Opciones adicionales
     class Meta:
         model = Compras
         fields = ['idproveedor', 'user', 'estado_compra']

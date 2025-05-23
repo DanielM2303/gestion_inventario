@@ -73,7 +73,7 @@
                             <div class="col">
                                 <div class="card mb-3 border-1 shadow-sm" style="width: 100%;">
                                     <div class="card-header bg-primary text-white">
-                                        <h6 class="font-weight-bold"><i class="fas fa-list mr-2"></i>Detalles de la venta</h6>
+                                        <h6 class="font-weight-bold"><i class="fas fa-cart-plus mr-2"></i>Detalles de la venta</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
@@ -699,7 +699,7 @@
 
 {% comment %} Nueva pestaña para generar factura {% endcomment %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    const abrirFactura = function() {
         var id_factura = '{{ id_factura }}';
         if (id_factura) {
             var url_factura = '/ventas/factura/' + id_factura + '/';
@@ -711,7 +711,7 @@
                 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=800,height=600,top=100,left=100'
             );
         }
-    });
+    };
 </script>
 
 {% comment %} Fecha actual obtener {% endcomment %}
@@ -725,11 +725,27 @@
     document.getElementById('fecha_emision').value = fechaActual;
 </script>
 
-{% comment %} Script para mostrar succes y error {% endcomment %}
+{% comment %} Script para mostrar success y error {% endcomment %}
 <script>
     {% if messages %}
         {% for m in messages %}
-            {% if m.tags == 'error' %}
+            {% if m.tags == 'success' %}
+                setTimeout(limpiarFormulario, 100);
+                Swal.fire({
+                    title: "¿Desea generar e imprimir la factura?",
+                    text: "Se generará un PDF para imprimir.",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, continuar",
+                    cancelButtonText: "No",
+                    confirmButtonColor: "#28a745",
+                    cancelButtonColor: "#dc3545"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setTimeout(abrirFactura, 100);
+                    }
+                });
+            {% elif m.tags == 'error' %}
                 Swal.fire({
                     title: "Errores encontrados",
                     html: `<div style="font-size: 14px;">{{m|safe}}</div>`,
@@ -741,4 +757,5 @@
         {% endfor %}
     {% endif %}
 </script>
+
 {% endblock script %}

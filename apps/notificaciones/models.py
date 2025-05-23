@@ -6,15 +6,12 @@ from django.utils.timesince import timesince
 
 # Clase Nivel de Notificación
 class Level(models.Model):
-    # Atributos
     idlevel = models.AutoField(primary_key=True)
     level_name = models.CharField(max_length=30, verbose_name="Nombre")
 
-    # Representación del objeto
     def __str__(self):
         return self.level_name
     
-    # Opciones adicionales
     class Meta:
         db_table="levels"
         verbose_name="Nivel"
@@ -22,7 +19,6 @@ class Level(models.Model):
 
 # Clase Notificación
 class Notification(models.Model):
-    # Atributos
     idnotification = models.AutoField(primary_key=True)
     idlevel = models.ForeignKey(Level, on_delete=models.RESTRICT, verbose_name="Nivel")
     verb = models.CharField(max_length=30, verbose_name="Verbo")
@@ -31,11 +27,9 @@ class Notification(models.Model):
     deleted = models.BooleanField(default=False, verbose_name="Eliminado")
     emailed = models.BooleanField(default=False, verbose_name="Enviado por correo")
 
-    # Representación del objeto
     def __str__(self):
         return self.description
     
-    # Opciones adicionales
     class Meta:
         db_table="notifications"
         verbose_name="Notificación"
@@ -44,7 +38,6 @@ class Notification(models.Model):
 
 # Clase Notificación de Usuario
 class NotificationCustomUser(models.Model):
-    # Atributos
     idnotification = models.ForeignKey(Notification, on_delete=models.RESTRICT, verbose_name="Notificación")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Usuario")
     message = models.CharField(max_length=400, verbose_name="Mensaje")
@@ -59,11 +52,9 @@ class NotificationCustomUser(models.Model):
     def elapsed_time(self):
         return timesince(self.created)
 
-    # Representación del objeto
     def __str__(self):
         return self.message
 
-    # Opciones adicionales
     class Meta:
         ordering = ['-created']
         db_table = "notifications_auth_user"

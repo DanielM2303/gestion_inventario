@@ -75,7 +75,7 @@
                             <div class="col">
                                 <div class="card mb-3 border-1 shadow-sm" style="width: 100%;">
                                     <div class="card-header bg-primary text-white">
-                                        <h6 class="font-weight-bold"><i class="fas fa-list mr-2"></i>Detalles de la compra</h6>
+                                        <h6 class="font-weight-bold"><i class="fas fa-truck mr-2"></i>Detalles de la compra</h6>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
@@ -635,12 +635,7 @@
     {% if messages %}
         {% for m in messages %}
             {% if m.tags == 'success' %}
-                Swal.fire({
-                    title: "{{m}}",
-                    icon: "success",
-                    confirmButtonText: "Aceptar",
-                    confirmButtonColor: "#4169E1"
-                });
+                setTimeout(limpiarFormulario, 100);
             {% elif m.tags == 'error' %}
                 Swal.fire({
                     title: "Errores encontrados",

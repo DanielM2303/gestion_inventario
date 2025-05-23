@@ -5,7 +5,6 @@ from apps.articulos.models import Articulos
 
 # Clase Venta
 class Ventas(models.Model):
-    # Atributos
     idventa = models.AutoField(primary_key=True)
     user = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, verbose_name="Usuario")
     idcliente = models.ForeignKey(Clientes, on_delete=models.PROTECT, verbose_name="Cliente")
@@ -19,11 +18,9 @@ class Ventas(models.Model):
     total = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Total")
     estado_venta = models.IntegerField(default=1, verbose_name="Estado")
 
-    # Representación del objeto
     def __str__(self):
         return self.concepto
     
-    # Opciones adicionales
     class Meta:
         ordering = ['-idventa', '-fecha_venta']
         db_table="ventas"
@@ -33,7 +30,6 @@ class Ventas(models.Model):
 
 # Clase Detalle Venta
 class Detalle_ventas(models.Model):
-    # Atributos
     iddetalle_venta = models.AutoField(primary_key=True)
     idventa = models.ForeignKey(Ventas, on_delete=models.RESTRICT, verbose_name="Venta")
     codigoarticulo = models.ForeignKey(Articulos, on_delete=models.RESTRICT, verbose_name="Artículo")
@@ -43,11 +39,9 @@ class Detalle_ventas(models.Model):
     #valor_total = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Valor Total")
     cantidad = models.IntegerField(verbose_name="Cantidad")
 
-    # Representación del objeto
     def __str__(self):
         return f'{self.idventa} - {self.codigoarticulo}'
     
-    # Opciones adicionales
     class Meta:
         db_table="detalle_ventas"
         verbose_name="Detalle Venta"
@@ -56,15 +50,12 @@ class Detalle_ventas(models.Model):
 
 # Clase Forma de Pago
 class Formapagos(models.Model):
-    # Atributos
     idformapago = models.AutoField(primary_key=True)
     descripcion_formapago = models.CharField(max_length=60, verbose_name="Descripción") 
     
-    # Representación del objeto
     def __str__(self):
         return f'{self.descripcion_formapago}'
     
-    # Opciones adicionales
     class Meta:
         db_table="formapagos"
         verbose_name="Forma Pago"
@@ -73,17 +64,14 @@ class Formapagos(models.Model):
 
 # Clase Pago
 class Pagos(models.Model):
-    # Atributos
     idpago = models.AutoField(primary_key=True)
     idventa = models.ForeignKey(Ventas, on_delete=models.RESTRICT, verbose_name="Venta")
     idformapago = models.ForeignKey(Formapagos, on_delete=models.RESTRICT, verbose_name="Forma Pago")
     monto = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Monto")
 
-    # Representación del objeto
     def __str__(self):
         return f'{self.idpago}'
     
-    # Opciones adicionales
     class Meta:
         db_table="pagos"
         verbose_name="Pago"

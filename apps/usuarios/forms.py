@@ -5,7 +5,6 @@ from django import forms
 
 # Clase Formulario Crear Nuevo Usuaro
 class CustomUserCreationForm(UserCreationForm):
-    # Atributos
     groups = forms.ModelChoiceField(
         queryset=Group.objects.all(), 
         label='Rol', 
@@ -24,7 +23,6 @@ class CustomUserCreationForm(UserCreationForm):
         )
     )
 
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         
@@ -46,7 +44,6 @@ class CustomUserCreationForm(UserCreationForm):
             raise forms.ValidationError('Selecciona al menos un rol.')
         return groups
 
-    # Opciones adicionales
     class Meta:
         model = CustomUser
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'telefono', 'celular', 'direccion', 'groups', 'is_active']
@@ -54,7 +51,6 @@ class CustomUserCreationForm(UserCreationForm):
 
 # Clase Formulario Editar un Usuario 
 class CustomUserEditionForm(forms.ModelForm):
-    # Atributos
     groups = forms.ModelChoiceField(
         queryset=Group.objects.all(), 
         label='Rol', 
@@ -73,7 +69,6 @@ class CustomUserEditionForm(forms.ModelForm):
         ),
     )
 
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(CustomUserEditionForm, self).__init__(*args, **kwargs)
 
@@ -110,7 +105,6 @@ class CustomUserEditionForm(forms.ModelForm):
             raise forms.ValidationError("Este nombre de usuario ya está en uso. Por favor, elige otro.")
         return username
     
-    # Opciones adicionales
     class Meta:
         model = CustomUser
         fields = ['username', 'first_name', 'last_name', 'email', 'telefono', 'celular', 'direccion', 'groups', 'is_active']
@@ -118,15 +112,11 @@ class CustomUserEditionForm(forms.ModelForm):
 
 # Clase Formulario Editar Contraseña de Usuario
 class CustomUserEditionPasswordForm(UserCreationForm):
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(CustomUserEditionPasswordForm, self).__init__(*args, **kwargs)
-        
-        # Personalización de los widgets
         self.fields['password1'].widget.attrs.update({'maxlength': '12', 'placeholder': 'Ingresa la contraseña'})
         self.fields['password2'].widget.attrs.update({'maxlength': '12', 'placeholder': 'Confirma la contraseña'})
 
-    # Opciones adicionales
     class Meta:
         model = CustomUser
         fields = ['password1', 'password2']
@@ -134,11 +124,8 @@ class CustomUserEditionPasswordForm(UserCreationForm):
 
 # Clase Formulario Editar Contraseña Perfil Usuario 
 class CustomPasswordChangeForm(PasswordChangeForm):
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
-        
-        # Personalización de los widgets
         self.fields['old_password'].widget.attrs.update({'maxlength': '12', 'placeholder': 'Ingresa la contraseña antigua'})
         self.fields['new_password1'].widget.attrs.update({'maxlength': '12', 'placeholder': 'Ingresa la contraseña nueva'})
         self.fields['new_password2'].widget.attrs.update({'maxlength': '12', 'placeholder': 'Confirma la contraseña nueva'})
@@ -146,11 +133,8 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
 # Clase Formulario Editar Perfil Usuario 
 class CustomUserChangeForm(forms.ModelForm):
-    # Inicialización del formulario
     def __init__(self, *args, **kwargs):
         super(CustomUserChangeForm, self).__init__(*args, **kwargs)
-        
-        # Personalización de los widgets
         self.fields['username'].widget.attrs.update({'placeholder': 'Ingresa el nombre de usuario'})
         self.fields['first_name'].widget.attrs.update({'placeholder': 'Ingresa los nombres'})
         self.fields['last_name'].widget.attrs.update({'placeholder': 'Ingresa los apellidos'})
@@ -159,7 +143,6 @@ class CustomUserChangeForm(forms.ModelForm):
         self.fields['celular'].widget.attrs.update({'placeholder': 'Ingresa el celular'})
         self.fields['direccion'].widget.attrs.update({'placeholder': 'Ingresa la dirección'})
 
-    # Opciones adicionales
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'first_name', 'last_name', 'telefono', 'celular', 'direccion')

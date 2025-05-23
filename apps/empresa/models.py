@@ -2,11 +2,9 @@ from django.db import models
 
 # Clase Provincia
 class Provincias(models.Model):
-    # Atributos
     idprovincia = models.AutoField(primary_key=True)
     nombre_provincia = models.CharField(max_length=50, verbose_name="Nombre")
 
-    # Representación del objeto
     def __str__(self):
         return self.nombre_provincia
     
@@ -17,16 +15,13 @@ class Provincias(models.Model):
 
 # Clase Ciudad
 class Ciudades(models.Model):
-    # Atributos
     idciudad = models.AutoField(primary_key=True)
     idprovincia = models.ForeignKey(Provincias, on_delete=models.PROTECT, verbose_name="Provincia")
     nombre_ciudad = models.CharField(max_length=50, verbose_name="Nombre")
 
-    # Representación del objeto
     def __str__(self):
         return self.nombre_ciudad
     
-    # Opciones adicionales
     class Meta:
         db_table="ciudades"
         verbose_name="Ciudad"
@@ -34,7 +29,6 @@ class Ciudades(models.Model):
     
 # Clase Empresa
 class Empresas(models.Model):
-    # Atributos
     idempresa = models.AutoField(primary_key=True)
     idciudad = models.ForeignKey(Ciudades, on_delete=models.PROTECT, verbose_name="Ciudad")
     RUC = models.CharField(max_length=13, verbose_name="RUC")
@@ -51,7 +45,6 @@ class Empresas(models.Model):
     rutaarchivogenerados = models.CharField(max_length=100, verbose_name="Ruta de Archivos")
     estado_empresa = models.IntegerField(default=1, verbose_name="Estado")
 
-    # Representación del objeto
     def __str__(self):
         return self.nombrecomercial
     
@@ -60,7 +53,6 @@ class Empresas(models.Model):
         self.logo.storage.delete(self.logo.name)
         return super().delete()
     
-    # Opciones adicionales
     class Meta:
         db_table="datos_empresa"
         verbose_name="Empresa"

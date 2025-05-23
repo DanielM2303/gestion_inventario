@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 
 # Clase Usuario (Personalizada)
 class CustomUser(AbstractUser):
-    # Atributos
     username = models.CharField(unique=True, max_length=15, verbose_name="Nombre de usuario", help_text='Únicamente letras, dígitos y @/./+/-/_')
     first_name = models.CharField(max_length=30, verbose_name="Nombres")
     last_name = models.CharField(max_length=40, verbose_name="Apellidos")
@@ -12,11 +11,9 @@ class CustomUser(AbstractUser):
     celular = models.CharField(max_length=10, null=True, blank=True, verbose_name="Celular")
     direccion = models.CharField(max_length=100, null=True, blank=True, verbose_name="Dirección")
 
-    # Representación del objeto
     def __str__(self):
         return self.username
     
-    # Opciones adicionales
     class Meta:
         ordering = ['-is_active', 'first_name', 'last_name']
         db_table = "auth_user"

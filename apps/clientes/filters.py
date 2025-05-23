@@ -4,7 +4,6 @@ from apps.clientes.models import Clientes, Tipodocumentos
 
 # Clase Filtro Cliente
 class ClientesFilter(django_filters.FilterSet):
-    # Atributos
     nombre_cliente = django_filters.CharFilter(
         lookup_expr='icontains', 
         label="Nombre del Cliente:", 
@@ -23,7 +22,6 @@ class ClientesFilter(django_filters.FilterSet):
         empty_label="Todos los estados"
     )
 
-    # Opciones adicionales
     class Meta:
         model = Clientes
         fields = ['nombre_cliente', 'idtipodocumento', 'estado_cliente']

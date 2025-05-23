@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-body">
                     {% load crispy_forms_tags %}
-                    <form method="POST" action="" id="FormGeneral">
+                    <form method="POST" action="" id="miFormulario">
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -89,8 +89,11 @@
                         <input type="hidden" name="user_update_info" value="1">
                         <div class="text-center mt-3">
                             <!-- Botón de tipo "button" para controlar el envío vía JS -->
-                            <button type="button" name="user_update_info" class="btn btn-sm btn-primary" id="btnModificarGeneral">
-                                <i class="fas fa-save"></i> Guardar
+                            <button type="button" name="user_update_info" class="btn btn-sm btn-primary botonModificar">
+                                <i class="fas fa-save"></i> Editar
+                            </button>
+                            <button type="button" name="editar_continuar" class="btn btn-sm btn-success ml-2 botonModificar">
+                                <i class="fas fa-save"></i> Editar y Continuar
                             </button>
                             <button type="reset" class="btn btn-sm btn-warning ml-2">
                                 <i class="fas fa-eraser"></i> Deshacer
@@ -138,26 +141,6 @@
 {% endblock contenido %}
 
 {% block script %}
-    <!-- SweetAlert confirmar la modificación informacion general-->
-    <script>
-        document.getElementById('btnModificarGeneral').addEventListener('click', function (event) {
-            event.preventDefault();
-            Swal.fire({
-                title: "¿Estás seguro de modificar?",
-                text: "Esta acción no se puede deshacer",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Aceptar",
-                cancelButtonText: "Cancelar",
-                confirmButtonColor: "#4169E1"
-            }).then(function (result) {
-                if (result.isConfirmed) {
-                    document.getElementById('FormGeneral').submit();
-                }
-            });
-        });
-    </script>
-    
     <!-- SweetAlert Confirmación para Cambio de Contraseña -->
     <script>
         document.getElementById('btnModificarPassword').addEventListener('click', function (event) {

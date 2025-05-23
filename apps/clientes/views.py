@@ -5,6 +5,7 @@ from apps.ventas.models import Ventas
 from apps.clientes.forms import ClienteForm
 from apps.clientes.filters import ClientesFilter
 from django.contrib import messages
+from django.urls import reverse
 
 # Vista lista de clientes
 @login_required
@@ -25,7 +26,12 @@ def registrar_clientes(request):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Registro de Cliente Exitoso!")
+            if 'guardar_continuar' in request.POST: 
+                return redirect(reverse("clientes:registrar_clientes"))
             return redirect("clientes:listado_clientes")
+        
+        else:
+            messages.error(request, "Error en el registro. Verifique los datos ingresados.")
     
     return render(request, 'registrar_clientes.html', {"form": form})
 
@@ -41,7 +47,12 @@ def editar_clientes(request, pk_id):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Cliente Modificado Correctamente!")
+            if 'editar_continuar' in request.POST: 
+                return redirect(reverse("clientes:editar_clientes", args=[pk_id]))
             return redirect("clientes:listado_clientes")
+        
+        else:
+            messages.error(request, "Error en la modificación. Verifique los datos ingresados.")
     
     return render(request, 'editar_clientes.html', {"form": form})
 

@@ -5,6 +5,7 @@ from apps.compras.models import Compras
 from apps.proveedores.forms import ProveedorForm
 from apps.proveedores.filters import ProveedoresFilter
 from django.contrib import messages
+from django.urls import reverse
 
 # Vista lista de proveedores
 @login_required
@@ -25,7 +26,12 @@ def registrar_proveedores(request):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Registro de Proveedor Exitoso!")
+            if 'guardar_continuar' in request.POST:
+                return redirect(reverse("proveedores:registrar_proveedores"))
             return redirect("proveedores:listado_proveedores")
+        
+        else:
+            messages.error(request, "Error en el registro. Verifique los datos ingresados.")
     
     return render(request, 'registrar_proveedores.html', {"form": form})
 
@@ -41,7 +47,12 @@ def editar_proveedores(request, pk_id):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Proveedor Modificado Correctamente!")
+            if 'editar_continuar' in request.POST:
+                return redirect(reverse("proveedores:editar_proveedores", args=[pk_id]))
             return redirect("proveedores:listado_proveedores")
+        
+        else:
+            messages.error(request, "Error en la modificación. Verifique los datos ingresados.")
     
     return render(request, 'editar_proveedores.html', {"form": form})
 

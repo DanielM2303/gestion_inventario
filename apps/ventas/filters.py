@@ -8,7 +8,6 @@ User = get_user_model()
 
 # Clase Filtro Venta
 class VentasFilter(django_filters.FilterSet):
-    # Atributos
     idcliente = django_filters.ModelChoiceFilter(
         queryset=Clientes.objects.all(), 
         label="Cliente:", 
@@ -57,7 +56,6 @@ class VentasFilter(django_filters.FilterSet):
         )
     )
 
-    # Opciones adicionales
     class Meta:
         model = Ventas
         fields = ['idcliente', 'user', 'estado_venta']

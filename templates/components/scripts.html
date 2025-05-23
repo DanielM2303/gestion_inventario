@@ -79,6 +79,35 @@
     });
 </script>
 
+<!-- Script de SweetAlert para confirmar la modificación -->
+<script>
+    document.querySelectorAll('.botonModificar').forEach(function (button) {
+        button.addEventListener('click', function () {
+            Swal.fire({
+                title: "¿Estás seguro de modificar?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Aceptar",
+                cancelButtonText: "Cancelar",
+                confirmButtonColor: "#4169E1"
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, enviar el formulario
+                    if (button.name === "editar_continuar") {
+                        var input = document.createElement("input");
+                        input.type = "hidden";
+                        input.name = "editar_continuar";
+                        input.value = "true";
+                        document.getElementById('miFormulario').appendChild(input);
+                    }
+                    document.getElementById('miFormulario').submit();
+                }
+            });
+        });
+    });
+</script>
+
 <!-- Alerta de notificaciones sin leer -->
 <script>
     (async function () {
@@ -98,16 +127,27 @@
                     console.error("Error al reproducir el audio:", error);
                 }
 
-                // Mostrar la notificación
-                Swal.fire({
-                    title: '¡Tienes {{ total_notificaciones }} notificación(es) nueva(s) sin leer!',
-                    text: 'Revisa tus notificaciones para más detalles.',
-                    icon: 'info',
-                    timer: 3000,
-                    showConfirmButton: false,
-                    toast: true, // Modo toast
-                    position: 'top-end',
-                    backdrop: false,
+                // Mostrar la notificación con NotyF
+                new Notyf({
+                    duration: 3000,
+                    position: {
+                        x: 'right',
+                        y: 'top'
+                    },
+                    types: [
+                        {
+                            type: 'info',
+                            background: '#0dcaf0',
+                            icon: {
+                                className: 'fas fa-bell',
+                                tagName: 'i',
+                                color: '#fff'
+                            }
+                        }
+                    ]
+                }).open({
+                    type: 'info',
+                    message: '¡Tienes {{ total_notificaciones }} notificación(es) nueva(s) sin leer! Revisa tus notificaciones para más detalles.'
                 });
 
                 // Actualizar el total anterior en localStorage

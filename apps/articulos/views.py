@@ -6,6 +6,7 @@ from apps.compras.models import Detalle_compras
 from apps.articulos.forms import ArticulosForm
 from apps.articulos.filters import ArticulosFilter
 from django.contrib import messages
+from django.urls import reverse
 
 # Vista Lista de Articulos
 @login_required
@@ -29,8 +30,13 @@ def registrar_articulos(request):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Registro de Producto Exitoso!")
+            if 'guardar_continuar' in request.POST:
+                return redirect(reverse("articulos:registrar_articulos"))
             return redirect("articulos:listado_articulos")
-    
+        
+        else:
+            messages.error(request, "¡Error en el registro! Verifique los datos ingresados.")
+
     return render(request, 'registrar_articulos.html', {"form": form})
 
 # Vista Edición de Articulo
@@ -45,8 +51,13 @@ def editar_articulos(request, pk_id):
         if form.is_valid():
             form.save()
             messages.success(request, "¡Producto Modificado Correctamente!")
+            if 'editar_continuar' in request.POST:
+                return redirect(reverse("articulos:editar_articulos", args=[pk_id]))
             return redirect("articulos:listado_articulos")
-    
+        
+        else:
+            messages.error(request, "¡Error en la modificación! Verifique los datos ingresados.")
+            
     contexto = {"form": form, "articulo": articulo}
     return render(request, 'editar_articulos.html', contexto)
 

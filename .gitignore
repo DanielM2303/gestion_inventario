@@ -1,6 +1,7 @@
 .qodo
 __pycache__/
 venv/
+sql/
 *.bak
 *.dat
 *.dir

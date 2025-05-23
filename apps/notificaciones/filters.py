@@ -4,7 +4,6 @@ from apps.articulos.models import Articulos
 
 # Clase Filtro Notificación
 class NotificationCustomUserFilter(django_filters.FilterSet):
-    # Atributos
     idlevel = django_filters.ModelChoiceFilter(
         field_name='idnotification__idlevel', 
         queryset=Level.objects.all(), 
@@ -30,7 +29,6 @@ class NotificationCustomUserFilter(django_filters.FilterSet):
             return queryset.filter(target_id=value.idarticulo)
         return queryset
 
-    # Opciones adicionales
     class Meta:
         model = NotificationCustomUser
         fields = ['idlevel', 'read', 'target_object']

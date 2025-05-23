@@ -5,7 +5,6 @@ from apps.articulos.models import Articulos
 
 # Clase Compra
 class Compras(models.Model):
-    # Atributos
     idcompra = models.AutoField(primary_key=True)
     user = models.ForeignKey(CustomUser, on_delete=models.RESTRICT, verbose_name="Usuario")
     idproveedor = models.ForeignKey(Proveedores, on_delete=models.PROTECT, verbose_name="Proveedor")
@@ -18,11 +17,9 @@ class Compras(models.Model):
     total = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Total")
     estado_compra = models.IntegerField(default=1, verbose_name="Estado")
 
-    # Representación del objeto
     def __str__(self):
         return self.concepto
     
-    # Opciones adicionales
     class Meta:
         ordering = ['-idcompra', '-fecha_compra']
         db_table="compras"
@@ -31,7 +28,6 @@ class Compras(models.Model):
 
 # Clase Detalle de la Compra
 class Detalle_compras(models.Model):
-    # Atributos    
     iddetalle_compra = models.AutoField(primary_key=True)
     idcompra = models.ForeignKey(Compras, on_delete=models.RESTRICT, verbose_name="Compra")
     codigoarticulo = models.ForeignKey(Articulos, on_delete=models.RESTRICT, verbose_name="Artículo")
@@ -40,11 +36,9 @@ class Detalle_compras(models.Model):
     #valor_total = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Valor Total")
     cantidad = models.IntegerField(verbose_name="Cantidad")
 
-    # Representación del objeto
     def __str__(self):
         return f'{self.idcompra} - {self.codigoarticulo}'
     
-    # Opciones adicionales
     class Meta:
         db_table="detalle_compras"
         verbose_name="Detalle Compra"

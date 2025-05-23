@@ -4,7 +4,6 @@ from apps.articulos.models import Articulos
 
 # Clase Filtro Lote
 class LoteFilter(django_filters.FilterSet):
-    # Atributos
     producto = django_filters.ModelChoiceFilter(
         queryset=Articulos.objects.filter(manejo_por_lotes=True), 
         field_name='codigoarticulo', 
@@ -18,7 +17,6 @@ class LoteFilter(django_filters.FilterSet):
         empty_label="Todos los estados"
     )
 
-    # Opciones adicionales
     class Meta:
         model = Lotes
         fields = ['producto', 'estado']
