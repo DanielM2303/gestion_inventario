@@ -25,15 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-uc%@3eryznu!j7b#9kv@ns^d&gxs)@!azckzg**f7gl8=1m@-1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+# DEBUG = True
+# ALLOWED_HOSTS = ['*']
 
 # DESPLIEGUE RENDER
-# DEBUG = 'RENDER' not in os.environ
-# ALLOWED_HOSTS = []
-# RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-# if RENDER_EXTERNAL_HOSTNAME:
-#     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+DEBUG = 'RENDER' not in os.environ
+ALLOWED_HOSTS = []
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 THIRD_APPS = [
@@ -75,7 +75,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware', # DESPLIEGUE RENDER servir archivos estáticos
+    'whitenoise.middleware.WhiteNoiseMiddleware', # DESPLIEGUE RENDER servir archivos estáticos
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,35 +109,33 @@ WSGI_APPLICATION = 'proyectoDjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'control_inventario',
-        'USER': 'postgres',
-        'PASSWORD': 'Daniel12',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    },
-}'
-'''
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'control_inventario',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Daniel12',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     },
+# }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'postgres://postgres:Daniel12@localhost:5432/control_inventario'),
-        conn_max_age=600
-    )
-}
-
-
-# DESPLIEGUE RENDER
 # DATABASES = {
 #     'default': dj_database_url.config(
-#         default= 'postgresql://postgres:postgres@localhost/postgres',
+#         default=os.environ.get('DATABASE_URL', 'postgres://postgres:Daniel12@localhost:5432/control_inventario'),
 #         conn_max_age=600
 #     )
 # }
+
+
+# DESPLIEGUE RENDER
+DATABASES = {
+    'default': dj_database_url.config(
+        default= 'postgresql://postgres:postgres@localhost/postgres',
+        conn_max_age=600
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -171,7 +169,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # DESPLIEGUE RENDER
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Static media (imagenes, archivos, etc)
 MEDIA_URL = '/media/'
@@ -209,45 +207,45 @@ SESSION_SAVE_EVERY_REQUEST = True
 AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 # Configuraciones de CELERY
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
+# CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+# CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 
 # DESPLIEGUE RENDER
-# CELERY_BROKER_URL = os.environ.get(
-#     'CELERY_BROKER_URL',
-#     'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486'
-# )
+CELERY_BROKER_URL = os.environ.get(
+    'CELERY_BROKER_URL',
+    'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486'
+)
 
-# CELERY_RESULT_BACKEND = os.environ.get(
-#     'CELERY_RESULT_BACKEND',
-#     'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486'
-# )
+CELERY_RESULT_BACKEND = os.environ.get(
+    'CELERY_RESULT_BACKEND',
+    'rediss://default:A44ghHpIZJ6vNrTHLzg6Focck57g7bek@redis-16486.c9.us-east-1-2.ec2.redns.redis-cloud.com:16486'
+)
 
-# CELERY_BROKER_TRANSPORT_OPTIONS = {
-#     'ssl': {
-#         'ssl_cert_reqs': ssl.CERT_NONE,  # También puedes usar CERT_REQUIRED si tienes certificado válido
-#     }
-# }
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'ssl': {
+        'ssl_cert_reqs': ssl.CERT_NONE,  # También puedes usar CERT_REQUIRED si tienes certificado válido
+    }
+}
 
-# CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {
-#     'ssl': {
-#         'ssl_cert_reqs': ssl.CERT_NONE,
-#     }
-# }
+CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {
+    'ssl': {
+        'ssl_cert_reqs': ssl.CERT_NONE,
+    }
+}
 
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'America/Guayaquil'
-CELERY_WORKER_POOL = 'solo' # para windows solo y prefork para linux
+CELERY_WORKER_POOL = 'prefork' # para windows solo y prefork para linux
 
 from celery.schedules import crontab
 from datetime import timedelta
 CELERY_BEAT_SCHEDULE = {
     'verificar_estado_lotes_diario': {
         'task': 'apps.notificaciones.tasks.verificar_estado_lotes',
-        'schedule': timedelta(seconds=3), 
+        'schedule': timedelta(seconds=15), 
         #'schedule': crontab(minute=0, hour=11),
     },
 }
