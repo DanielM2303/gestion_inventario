@@ -406,10 +406,12 @@
             function toggleNutricional() {
                 if (radioComestible.checked) {
                     opcionNutricional.classList.remove('d-none');
+                    document.getElementById('id_tiene_semaforo').required = true;
                 } else {
                     opcionNutricional.classList.add('d-none');
                     cardNutricional.classList.add('d-none');
                     document.getElementById('id_tiene_semaforo').checked = false;
+                    document.getElementById('id_tiene_semaforo').required = false;
                     checkNutricional(document.getElementById('id_tiene_semaforo').checked);
                 }
             }

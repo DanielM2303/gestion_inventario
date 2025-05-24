@@ -36,6 +36,16 @@ class ArticulosForm(ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
+    
+    def clean_tiene_semaforo(self):
+        idtipoarticulo = self.cleaned_data['idtipoarticulo']
+        tiene_semaforo = self.cleaned_data['tiene_semaforo']
+        if idtipoarticulo.idtipoarticulo == 1:
+            if not tiene_semaforo:
+                raise ValidationError("El campo 'Requiere semáforo nutricional' es obligatorio.")
+        if tiene_semaforo and (not self.cleaned_data['idnivelgrasa'] or not self.cleaned_data['idnivelazucar'] or not self.cleaned_data['idnivelsal']):
+            raise ValidationError("Si seleccionas 'Requiere semáforo nutricional', debes seleccionar cada nivel nutricional.")
+        return tiene_semaforo
 
     def clean_utilidad(self):
         utilidad = self.cleaned_data.get('utilidad')

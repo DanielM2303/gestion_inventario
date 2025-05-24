@@ -151,8 +151,13 @@
                                     <div class="form-group col-md-6">
                                         <div class="custom-control custom-checkbox">
                                             {{ form.tiene_semaforo }}
-                                            <label class="custom-control-label" for="id_tiene_semaforo">¿Requiere tabla nutricional tipo semáforo?</label>
+                                            <label class="custom-control-label" for="id_tiene_semaforo">¿Requiere semáforo nutricional?</label>
                                         </div>
+                                        {% if form.tiene_semaforo.errors %}
+                                        <small class="text-danger font-weight-bold">
+                                            {{ form.tiene_semaforo.errors|first }}
+                                        </small>
+                                        {% endif %}
                                     </div>
                                 </div>
 
@@ -421,10 +426,12 @@
             function toggleNutricional() {
                 if (radioComestible.checked) {
                     opcionNutricional.classList.remove('d-none');
+                    document.getElementById('id_tiene_semaforo').required = true;
                 } else {
                     opcionNutricional.classList.add('d-none');
                     cardNutricional.classList.add('d-none');
                     document.getElementById('id_tiene_semaforo').checked = false;
+                    document.getElementById('id_tiene_semaforo').required = false;
                     checkNutricional(document.getElementById('id_tiene_semaforo').checked);
                 }
             }
