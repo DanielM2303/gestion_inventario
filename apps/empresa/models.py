@@ -29,6 +29,12 @@ class Ciudades(models.Model):
     
 # Clase Empresa
 class Empresas(models.Model):
+    # NUEVO
+    NOTIFICAR_A_OPCIONES = [
+        ('todos', 'Todos los usuarios'),
+        ('superuser', 'Solo el Administrador Principal'),
+    ]
+
     idempresa = models.AutoField(primary_key=True)
     idciudad = models.ForeignKey(Ciudades, on_delete=models.PROTECT, verbose_name="Ciudad")
     RUC = models.CharField(max_length=13, verbose_name="RUC")
@@ -44,6 +50,19 @@ class Empresas(models.Model):
     nombrerepresentantelegal = models.CharField(max_length=50, verbose_name="Nombre Representante Legal")
     rutaarchivogenerados = models.CharField(max_length=100, verbose_name="Ruta de Archivos")
     estado_empresa = models.IntegerField(default=1, verbose_name="Estado")
+
+    # NUEVOS CAMPOS DE CONFIGURACIÓN
+    notificar_a = models.CharField(
+        max_length=10,
+        choices=NOTIFICAR_A_OPCIONES,
+        default='todos',
+        verbose_name="Enviar notificaciones a"
+    )
+    activar_notif_stock = models.BooleanField(default=False, verbose_name="Activar notificación por stock de productos")
+    stock_minimo_general = models.PositiveIntegerField(null=True, blank=True, verbose_name="Stock mínimo general")
+    stock_maximo_general = models.PositiveIntegerField(null=True, blank=True, verbose_name="Stock máximo general")
+    activar_notif_por_vencer = models.BooleanField(default=False, verbose_name="Activar notificación por vencer de productos")
+    dias_por_vencer_general = models.PositiveIntegerField(null=True, blank=True, verbose_name="Días antes de vencer (general)")
 
     def __str__(self):
         return self.nombrecomercial

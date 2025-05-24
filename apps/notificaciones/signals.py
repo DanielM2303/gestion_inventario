@@ -6,24 +6,31 @@ from apps.usuarios.models import CustomUser
 from apps.notificaciones.models import Notification, NotificationCustomUser
 from apps.compras.models import Detalle_compras
 from apps.ventas.models import Detalle_ventas
+from apps.empresa.models import Empresas
 
 def enviar_notificacion_stock(articulo):
     """ Verificar el stock y enviar notificaciones """
     content_type = ContentType.objects.get_for_model(Articulos)
-    if articulo.stock > 0 and articulo.stock < articulo.stock_minimo:
-        mensaje = f"El producto '{articulo.descripcion_articulo}' con código: {articulo.codigoarticulo} tiene un stock de {articulo.stock}, por debajo del mínimo permitido {articulo.stock_minimo}."
+    mensaje_general = f"El producto '{articulo.descripcion_articulo}' con código: {articulo.codigoarticulo} tiene un stock de {articulo.stock}"
+    stock_minimo = Empresas.objects.get(idempresa=100).stock_minimo_general or articulo.stock_minimo
+    stock_maximo = Empresas.objects.get(idempresa=100).stock_maximo_general or articulo.stock_maximo
+    if articulo.stock > 0 and articulo.stock < stock_minimo:
+        mensaje = f"{mensaje_general}, por debajo del mínimo permitido {stock_minimo}."
         notificacion_id = 1
-    elif articulo.stock > articulo.stock_maximo:
-        mensaje = f"El producto '{articulo.descripcion_articulo}' con código: {articulo.codigoarticulo} tiene un stock de {articulo.stock}, por encima del máximo permitido {articulo.stock_maximo}."
+    elif articulo.stock > stock_maximo:
+        mensaje = f"{mensaje_general}, por encima del máximo permitido {stock_maximo}."
         notificacion_id = 2
     elif articulo.stock == 0:
-        mensaje = f"El producto '{articulo.descripcion_articulo}' con código: {articulo.codigoarticulo} ha llegado a un stock de 0."
+        mensaje = f"{mensaje_general}."
         notificacion_id = 3
     else:
         return
     
     # Crear notificación para cada usuario
-    for user in CustomUser.objects.all():
+    usuarios = CustomUser.objects.all()
+    if Empresas.objects.get(idempresa=100).notificar_a == 'superuser':
+        usuarios = CustomUser.objects.filter(is_superuser=True)
+    for user in usuarios:
         NotificationCustomUser.objects.create(
             idnotification=Notification.objects.get(idnotification=notificacion_id),
             user=user,

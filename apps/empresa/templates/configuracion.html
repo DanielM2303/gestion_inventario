@@ -6,11 +6,11 @@
 {% block contenido %}
     <!-- Page Heading -->
     <div class="mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Perfil de la Empresa</h1>
+        <h1 class="h3 mb-0 text-gray-800">Configuración General</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb" style="background-color: transparent; padding: 0; margin: 0;">
                 <li class="breadcrumb-item"><a href="{% url 'dashboard:inicio' %}"><i class="fas fa-home mr-2"></i>Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Perfil Empresa</li>
+                <li class="breadcrumb-item active" aria-current="page">Configuración</li>
             </ol>
         </nav>
     </div>
@@ -59,8 +59,13 @@
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs nav-tabs-bordered">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#detalles">
-                                            <i class="fas fa-info-circle mr-2"></i>Detalles
+                                        <a class="nav-link active" data-toggle="tab" href="#notificaciones">
+                                            <i class="fas fa-bell mr-2"></i>Notificaciones
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#detalles">
+                                            <i class="fas fa-info-circle mr-2"></i>Perfil Empresa
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -68,12 +73,57 @@
                                             <i class="fas fa-map-marked-alt mr-2"></i>Dirección
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#imagen">
+                                            <i class="fas fa-image mr-2"></i>Imagen
+                                        </a>
+                                    </li>
                                 </ul>
 
                                 <!-- Tab panes -->
                                 <div class="tab-content mt-3">
-                                    <div id="detalles" class="tab-pane container active">
-                                        {{ form.logo | as_crispy_field }}
+                                
+                                    <!-- Pestaña de notificaciones -->
+                                    <div id="notificaciones" class="tab-pane container active">
+                                        {{ form.notificar_a | as_crispy_field }}
+                                        <div class="form-group">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="{{ form.activar_notif_stock.id_for_label }}" name="{{ form.activar_notif_stock.html_name }}" {% if form.activar_notif_stock.value %}checked{% endif %}>
+                                                <label class="custom-control-label" for="{{ form.activar_notif_stock.id_for_label }}">{{ form.activar_notif_stock.label }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <div class="input-with-iconfas">
+                                                    <i class="fas fa-box-open input-iconfas"></i>
+                                                    {{ form.stock_minimo_general | as_crispy_field }}
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="input-with-iconfas">
+                                                    <i class="fas fa-box-open input-iconfas"></i>
+                                                    {{ form.stock_maximo_general | as_crispy_field }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="{{ form.activar_notif_por_vencer.id_for_label }}" name="{{ form.activar_notif_por_vencer.html_name }}" {% if form.activar_notif_por_vencer.value %}checked{% endif %}>
+                                                <label class="custom-control-label" for="{{ form.activar_notif_por_vencer.id_for_label }}">{{ form.activar_notif_por_vencer.label }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <div class="input-with-iconfas">
+                                                    <i class="fas fa-calendar-times input-iconfas"></i>
+                                                    {{ form.dias_por_vencer_general | as_crispy_field }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pestaña de detalles -->
+                                    <div id="detalles" class="tab-pane container">
                                         <div class="form-group">
                                             <div class="input-with-iconfas">
                                                 <i class="fas fa-id-card input-iconfas"></i>
@@ -124,6 +174,7 @@
                                         </div>
                                     </div>
 
+                                    <!-- Pestaña de dirección -->
                                     <div id="direccion" class="tab-pane container">
                                         {{ form.idprovincia | as_crispy_field }}
                                         {{ form.idciudad | as_crispy_field }}
@@ -140,13 +191,18 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Pestaña de imagen -->
+                                    <div id="imagen" class="tab-pane container">
+                                        {{ form.logo | as_crispy_field }}
+                                    </div>
                                 </div>
                                         
                                 <div class="d-flex justify-content-end flex-wrap mt-3">
                                     <button type="button" class="btn btn-sm btn-primary mb-2" id="botonModificar">
                                         <i class="fas fa-save"></i> Guardar
                                     </button>
-                                    <button type="reset" class="btn btn-sm btn-warning ml-2 mb-2">
+                                    <button type="reset" class="btn btn-sm btn-warning ml-2 mb-2" id="botonReset">
                                         <i class="fas fa-undo"></i> Deshacer
                                     </button>   
                                 </div>
@@ -164,8 +220,8 @@
     <script>
         document.getElementById('botonModificar').addEventListener('click', function () {
             Swal.fire({
-                title: "¿Estás seguro de modificar?",
-                text: "Esta acción no se puede deshacer",
+                title: "Confirmar cambios en la configuración",
+                text: "Los cambios realizados afectarán la configuración global del sistema",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonText: "Aceptar",
@@ -202,6 +258,71 @@
         });
     </script>
 
+    <!-- Manejar activación/desactivación notificaciones -->
+    <script>
+        // Función para manejar la activación/desactivación de campos relacionados con stock
+        function manejarCamposStock() {
+            const notifStock = document.getElementById('{{ form.activar_notif_stock.id_for_label }}');
+            const stockMin = document.getElementById('div_id_stock_minimo_general');
+            const stockMax = document.getElementById('div_id_stock_maximo_general');
+            const inputStockMin = document.getElementById('id_stock_minimo_general');
+            const inputStockMax = document.getElementById('id_stock_maximo_general');
+            const iconosStock = document.querySelectorAll('.input-with-iconfas .fa-box-open');
+
+            function actualizarCamposStock() {
+                if (notifStock.checked) {
+                    stockMin.style.display = 'block';
+                    stockMax.style.display = 'block';
+                    iconosStock.forEach(icono => icono.style.display = 'block');
+                } else {
+                    stockMin.style.display = 'none';
+                    stockMax.style.display = 'none';
+                    iconosStock.forEach(icono => icono.style.display = 'none');
+                    inputStockMin.value = '';
+                    inputStockMax.value = '';
+                }
+            }
+
+            // Ejecutar al cargar y cuando cambie el estado
+            actualizarCamposStock();
+            notifStock.addEventListener('change', actualizarCamposStock);
+        }
+
+        // Función para manejar la activación/desactivación de campos relacionados con vencimiento
+        function manejarCamposVencimiento() {
+            const notifVencer = document.getElementById('{{ form.activar_notif_por_vencer.id_for_label }}');
+            const diasVencer = document.getElementById('div_id_dias_por_vencer_general');
+            const inputDiasVencer = document.getElementById('id_dias_por_vencer_general');
+            const iconoVencer = document.querySelector('.input-with-iconfas .fa-calendar-times');
+
+            function actualizarCamposVencimiento() {
+                if (notifVencer.checked) {
+                    diasVencer.style.display = 'block';
+                    if (iconoVencer) iconoVencer.style.display = 'block';
+                } else {
+                    diasVencer.style.display = 'none';
+                    if (iconoVencer) iconoVencer.style.display = 'none';
+                    inputDiasVencer.value = '';
+                }
+            }
+
+            // Ejecutar al cargar y cuando cambie el estado
+            actualizarCamposVencimiento();
+            notifVencer.addEventListener('change', actualizarCamposVencimiento);
+        }
+
+        // evento de reset click
+        document.getElementById('botonReset').addEventListener('click', function () {
+            // Forzar el reset del formulario primero
+            this.form.reset();
+            manejarCamposStock();
+            manejarCamposVencimiento();
+        });
+        
+        manejarCamposStock();
+        manejarCamposVencimiento();
+    </script>
+    
     <!-- Mejorar diseño campo seleccion archivo -->
     <script src="{% static 'js/components/campo_file.js' %}"></script>
 {% endblock script %}

@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             {% for checkbox in form.permissions %}
-                                {% if 'asignar' in checkbox.choice_label|lower or 'generar' in checkbox.choice_label|lower %}
+                                {% if 'asignar' in checkbox.choice_label|lower or 'generar' in checkbox.choice_label|lower or 'config' in checkbox.choice_label|lower %}
                                     <div class="custom-control custom-switch">
                                         {{ checkbox.tag }}
                                         <label class="custom-control-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
@@ -165,7 +165,9 @@
                     allCheckedeliminar = false;
                 }
             }
-            if (div.querySelector('.custom-control-label').textContent.toLowerCase().includes('asignar ') || div.querySelector('.custom-control-label').textContent.toLowerCase().includes('generar ')) {
+            if (div.querySelector('.custom-control-label').textContent.toLowerCase().includes('asignar ') || 
+                div.querySelector('.custom-control-label').textContent.toLowerCase().includes('generar ') ||
+                div.querySelector('.custom-control-label').textContent.toLowerCase().includes('config')) {
                 if (!div.querySelector('input[type="checkbox"]').checked) {
                     allCheckedotros = false;
                 }
@@ -223,7 +225,9 @@
     document.getElementById('checkAllOtros').addEventListener('change', function() {
         const divs = document.querySelectorAll('.custom-switch');
         divs.forEach(div => {
-            if (div.querySelector('.custom-control-label').textContent.toLowerCase().includes('asignar ') || div.querySelector('.custom-control-label').textContent.toLowerCase().includes('generar ')) {
+            if (div.querySelector('.custom-control-label').textContent.toLowerCase().includes('asignar ') || 
+            div.querySelector('.custom-control-label').textContent.toLowerCase().includes('generar ') ||
+            div.querySelector('.custom-control-label').textContent.toLowerCase().includes('config')) {
                 div.querySelector('input[type="checkbox"]').checked = this.checked;
             }
         });

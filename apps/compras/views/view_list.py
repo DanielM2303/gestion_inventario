@@ -8,7 +8,9 @@ from apps.compras.filters import ComprasFilter
 @permission_required('compras.ver_compras', raise_exception=True)
 def listado_compras(request):
     # Obtener datos
-    compras = Compras.objects.all()
+    compras = Compras.objects.all().filter(user=request.user)
+    if request.user.is_superuser:
+        compras = Compras.objects.all()
     filtro = ComprasFilter(request.GET, queryset=compras)
     
     # Renderizar plantilla

@@ -14,7 +14,7 @@ def configuracion(request):
         empresa_form = EmpresaForm(request.POST, request.FILES, instance=empresa)
         if empresa_form.is_valid():
             empresa_form.save()
-            messages.success(request, "¡Información de la Empresa Modificada Correctamente!")
+            messages.success(request, "¡Configuración General Modificada Correctamente!")
             return redirect("empresa:configuracion")
         else:
             messages.error(request, "¡Por favor, corrige los errores en el formulario!")
