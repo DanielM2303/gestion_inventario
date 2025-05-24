@@ -37,3 +37,27 @@
     vertical-align: middle;
 }
 
+/* ESTILOS PARA SEMAFORO NUTRICIONAL */
+.nutriente-card {
+    padding: 1rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.nutriente-card-danger {
+    background-color: #E12E28;
+}
+
+.nutriente-card-warning {
+    background-color: #E6D603;
+}
+
+.nutriente-card-success {
+    background-color: #3EB349;
+}
+
+/* Efectos hover */
+.nutriente-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}

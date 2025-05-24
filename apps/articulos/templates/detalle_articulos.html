@@ -23,6 +23,13 @@
                         <i class="fas fa-chart-line mr-2"></i> Comercial
                     </a>
                 </li>
+                {% if articulo_detalle.tiene_semaforo %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#semaforo">
+                            <i class="fas fa-leaf mr-2"></i> Información Nutricional
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
 
             <!-- Contenido -->
@@ -171,6 +178,214 @@
                                             </div>
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña Semáforo Nutricional -->
+                <div id="semaforo" class="tab-pane fade">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-light border-0">
+                                    <h6 class="mb-0 text-dark font-weight-bold">
+                                        <i class="fas fa-traffic-light mr-2 text-success"></i>Semáforo Nutricional
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    {% if articulo_detalle.tiene_semaforo %}
+                                    <div class="semaforo-nutricional">
+                                        <!-- Mostrar primero todos los ALTO (idnivelazucar=1, idnivelgrasa=1, idnivelsal=1) -->
+                                        {% if articulo_detalle.idnivelazucar and articulo_detalle.idnivelazucar.idnivelazucar == 1 %}
+                                        <div class="nutriente-card nutriente-card-danger w-100 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">ALTO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">AZÚCAR</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelgrasa and articulo_detalle.idnivelgrasa.idnivelgrasa == 1 %}
+                                        <div class="nutriente-card nutriente-card-danger w-100 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">ALTO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">GRASAS</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelsal and articulo_detalle.idnivelsal.idnivelsal == 1 %}
+                                        <div class="nutriente-card nutriente-card-danger w-100 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">ALTO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">SAL</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                    
+                                        {% if articulo_detalle.idnivelazucar and articulo_detalle.idnivelazucar.idnivelazucar == 2 %}
+                                        <div class="nutriente-card nutriente-card-warning w-75 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">MEDIO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">AZÚCAR</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelgrasa and articulo_detalle.idnivelgrasa.idnivelgrasa == 2 %}
+                                        <div class="nutriente-card nutriente-card-warning w-75 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">MEDIO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">GRASAS</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelsal and articulo_detalle.idnivelsal.idnivelsal == 2 %}
+                                        <div class="nutriente-card nutriente-card-warning w-75 mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">MEDIO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">SAL</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelazucar and articulo_detalle.idnivelazucar.idnivelazucar == 3 %}
+                                        <div class="nutriente-card nutriente-card-success w-60 mb-3" style="width: 60% !important;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">BAJO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">AZÚCAR</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelgrasa and articulo_detalle.idnivelgrasa.idnivelgrasa == 3 %}
+                                        <div class="nutriente-card nutriente-card-success w-60 mb-3" style="width: 60% !important;">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">BAJO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">GRASAS</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelsal and articulo_detalle.idnivelsal.idnivelsal == 3 %}
+                                        <div class="nutriente-card nutriente-card-success w-60">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado bg-white rounded-pill font-weight-bold px-3 py-1 me-2">BAJO</span>
+                                                        <span class="nutriente-descripcion text-white px-2">
+                                                            en <span class="font-weight-bold">SAL</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        {% if articulo_detalle.idnivelazucar and articulo_detalle.idnivelazucar.idnivelazucar == 4 %}
+                                        <div class="nutriente-card  w-60 mb-3" >
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado font-weight-bold px-3 py-1 me-2">No contiene</span>
+                                                        <span class="nutriente-descripcion font-weight-bold">AZÚCAR
+                                                            
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelgrasa and articulo_detalle.idnivelgrasa.idnivelgrasa == 4 %}
+                                        <div class="nutriente-card  w-60 mb-3" >
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado  font-weight-bold px-3 py-1 me-2">No contiene</span>
+                                                        <span class="nutriente-descripcion">
+                                                            <span class="font-weight-bold">GRASAS</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        
+                                        {% if articulo_detalle.idnivelsal and articulo_detalle.idnivelsal.idnivelsal == 4 %}
+                                        <div class="nutriente-card w-60" >
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="nutriente-grado font-weight-bold px-3 py-1 me-2">No contiene</span>
+                                                        <span class="nutriente-descripcion">
+                                                            <span class="font-weight-bold">SAL</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% else %}
+                                    <div class="text-center py-4">
+                                        <i class="fas fa-info-circle fa-2x text-muted mb-3"></i>
+                                        <h5 class="text-muted">Información no disponible</h5>
+                                        <p class="text-muted small">Este producto no tiene semáforo nutricional</p>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
