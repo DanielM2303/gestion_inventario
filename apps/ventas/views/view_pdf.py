@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.conf import settings
 from apps.articulos.models import TipoArticulos
 
+# Generar detalle nutricional por comestible y no comestible
 def generar_distribucion_consolidada(idventa):
     try:
         # Obtener tipos de artículos una sola vez
@@ -101,6 +102,7 @@ def generar_distribucion_consolidada(idventa):
     except Exception as e:
         return f"Error: {str(e)}"
      
+# Generar detalle nutricional por indicadores
 def generar_indicadores_nutricionales(idventa):
     try:
         # Definir los niveles nutricionales

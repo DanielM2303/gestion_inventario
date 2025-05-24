@@ -244,7 +244,7 @@ from datetime import timedelta
 CELERY_BEAT_SCHEDULE = {
     'verificar_estado_lotes_diario': {
         'task': 'apps.notificaciones.tasks.verificar_estado_lotes',
-        'schedule': timedelta(seconds=15), 
+        'schedule': timedelta(seconds=12), 
         #'schedule': crontab(minute=0, hour=11),
     },
 }
