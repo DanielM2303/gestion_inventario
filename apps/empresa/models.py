@@ -56,12 +56,12 @@ class Empresas(models.Model):
         max_length=10,
         choices=NOTIFICAR_A_OPCIONES,
         default='todos',
-        verbose_name="Enviar notificaciones a"
+        verbose_name="Habilitar Notificaciones para"
     )
-    activar_notif_stock = models.BooleanField(default=False, verbose_name="Activar notificación por stock de productos")
+    activar_notif_stock = models.BooleanField(default=False, verbose_name="Notificación por stock de productos")
     stock_minimo_general = models.PositiveIntegerField(null=True, blank=True, verbose_name="Stock mínimo general")
     stock_maximo_general = models.PositiveIntegerField(null=True, blank=True, verbose_name="Stock máximo general")
-    activar_notif_por_vencer = models.BooleanField(default=False, verbose_name="Activar notificación por vencer de productos")
+    activar_notif_por_vencer = models.BooleanField(default=False, verbose_name="Notificación por vencer de productos")
     dias_por_vencer_general = models.PositiveIntegerField(null=True, blank=True, verbose_name="Días antes de vencer (general)")
 
     def __str__(self):

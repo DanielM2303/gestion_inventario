@@ -224,51 +224,30 @@
                                     {% csrf_token %}
                                     <div class="form-row">
                                         <div class="form-group col-md-5">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-user input-iconfas"></i>
-                                                {{ user_form.username | as_crispy_field }}
-                                            </div>
+                                            {{ user_form.username | as_crispy_field }}
                                         </div>
                                         <div class="form-group col-md-7">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-envelope input-iconfas"></i>
-                                                {{ user_form.email | as_crispy_field }}
-                                            </div>
+                                            {{ user_form.email | as_crispy_field }}
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-signature input-iconfas"></i>
-                                                {{ user_form.first_name | as_crispy_field }}
-                                            </div>
+                                            {{ user_form.first_name | as_crispy_field }}
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-signature input-iconfas"></i>
-                                                {{ user_form.last_name | as_crispy_field }}
-                                            </div>
+                                            {{ user_form.last_name | as_crispy_field }}
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-phone input-iconfas"></i>
-                                                {{ user_form.telefono | as_crispy_field }}
-                                            </div>
+                                            {{ user_form.telefono | as_crispy_field }}
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-mobile-alt input-iconfas"></i>
-                                                {{ user_form.celular | as_crispy_field }}
-                                            </div>
+                                            {{ user_form.celular | as_crispy_field }}
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-map-marker-alt input-iconfas"></i>
-                                            {{ user_form.direccion | as_crispy_field }}
-                                        </div>
+                                        {{ user_form.direccion | as_crispy_field }}
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" name="update_info" class="btn btn-sm btn-primary">
@@ -287,26 +266,17 @@
                                     {% csrf_token %}
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-lock input-iconfas"></i>
-                                                {{ password_form.old_password | as_crispy_field }}
-                                            </div>
+                                            {{ password_form.old_password | as_crispy_field }}
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-lock input-iconfas"></i>
-                                                {{ password_form.new_password1 | as_crispy_field }}
-                                            </div>
+                                            {{ password_form.new_password1 | as_crispy_field }}
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
-                                            <div class="input-with-iconfas">
-                                                <i class="fas fa-lock input-iconfas"></i>
-                                                {{ password_form.new_password2 | as_crispy_field }}
-                                            </div>
+                                            {{ password_form.new_password2 | as_crispy_field }}
                                         </div>
                                     </div>
                                     <div class="text-center">

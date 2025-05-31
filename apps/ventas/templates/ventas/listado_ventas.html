@@ -37,9 +37,11 @@
                             <div class="col-md-4">
                                 {{ filtro.form.idcliente|as_crispy_field }}
                             </div>
-                            <div class="col-md-4">
-                                {{ filtro.form.user|as_crispy_field }}
-                            </div>
+                            {% if request.user.is_superuser %}
+                                <div class="col-md-4">
+                                    {{ filtro.form.user|as_crispy_field }}
+                                </div>
+                            {% endif %}
                             <div class="col-md-4">
                                 {{ filtro.form.estado_venta|as_crispy_field }}
                             </div>

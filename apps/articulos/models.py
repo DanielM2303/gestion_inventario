@@ -5,7 +5,7 @@ from apps.categorias.models import Categoriaarticulos
 class Givas(models.Model):
     idgiva = models.AutoField(primary_key=True)
     descripcion_giva = models.CharField(max_length=30, verbose_name="Descripción")
-    valoriva = models.IntegerField(verbose_name="Valor Iva")
+    valoriva = models.IntegerField(verbose_name="Tasa de IVA (%)")
 
     def __str__(self):
         return self.descripcion_giva
@@ -86,11 +86,11 @@ class Articulos(models.Model):
     tiene_fecha_caduca = models.BooleanField(default=False, verbose_name="¿Tiene fecha de caducidad?")
     manejo_por_lotes = models.BooleanField(default=False, verbose_name="¿Se maneja por lotes?")
     stock = models.IntegerField(default=0, verbose_name="Stock")
-    stock_minimo = models.IntegerField(default=0, verbose_name="Alerta Stock Mínimo")
-    stock_maximo = models.IntegerField(default=1, verbose_name="Alerta Stock Máximo")
-    costo = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Costo")
-    utilidad = models.IntegerField(verbose_name="Utilidad")
-    precioventa = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Precio Venta")
+    stock_minimo = models.IntegerField(default=0, verbose_name="Stock Mínimo")
+    stock_maximo = models.IntegerField(default=1, verbose_name="Stock Máximo")
+    costo = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Costo ($)")
+    utilidad = models.IntegerField(verbose_name="Utilidad (%)")
+    precioventa = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="Precio Venta ($)")
     estado_articulo = models.IntegerField(default=1, verbose_name="Estado")
 
     def __str__(self):

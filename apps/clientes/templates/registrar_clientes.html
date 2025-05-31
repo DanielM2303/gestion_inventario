@@ -27,46 +27,28 @@
                 <form method="POST" action="">
                     {% csrf_token %}
                     <div class="form-group">
-                        <div class="input-with-iconfas">
-                            <i class="fas fa-user input-iconfas"></i>
-                            {{ form.nombre_cliente | as_crispy_field }}
-                        </div>
+                        {{ form.nombre_cliente | as_crispy_field }}
                     </div>
                     <div class="form-group">
-                        <div class="input-with-iconfas">
-                            <i class="fas fa-map-marker-alt input-iconfas"></i>
-                            {{ form.direccion_cliente | as_crispy_field }}
-                        </div>
+                        {{ form.direccion_cliente | as_crispy_field }}
                     </div>
                     <div class="form-group">
-                        <div class="input-with-iconfas">
-                            <i class="fas fa-envelope input-iconfas"></i>
-                            {{ form.correo_cliente | as_crispy_field }}
-                        </div>
+                        {{ form.correo_cliente | as_crispy_field }}
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             {{ form.idtipodocumento | as_crispy_field }}
                         </div>
                         <div class="form-group col-md-6">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-id-card input-iconfas"></i>
-                                {{ form.numerodocumento | as_crispy_field }}
-                            </div>
+                            {{ form.numerodocumento | as_crispy_field }}
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-phone input-iconfas"></i>
-                                {{ form.telefono_cliente | as_crispy_field }}
-                            </div>
+                            {{ form.telefono_cliente | as_crispy_field }}
                         </div>
                         <div class="form-group col-md-6">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-mobile-alt input-iconfas"></i>
-                                {{ form.celular_cliente | as_crispy_field }}
-                            </div>
+                            {{ form.celular_cliente | as_crispy_field }}
                         </div>
                     </div>
                     <div class="form-row">

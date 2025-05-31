@@ -1,6 +1,7 @@
 from django.db import models
 from apps.articulos.models import Articulos
 from apps.compras.models import Compras, Detalle_compras
+from apps.empresa.models import Empresas
 from django.utils import timezone
 
 # Clase Estado de Lote
@@ -33,9 +34,10 @@ class Lotes(models.Model):
             self.idestado_lote = Estado_lotes.objects.get(code_estado_lote='no_vence')
         else:
             dias_restantes = (self.fecha_caducidad - timezone.now().date()).days
+            dias_por_vencer = Empresas.objects.get(idempresa=100).dias_por_vencer_general or 5
             if dias_restantes <= 0:
                 self.idestado_lote = Estado_lotes.objects.get(code_estado_lote='vencido')
-            elif dias_restantes <= 15:  # Por vencer si quedan 15 días o menos (ajustable)
+            elif dias_restantes <= dias_por_vencer:  # Por vencer si quedan 5 días o menos (ajustable)
                 self.idestado_lote = Estado_lotes.objects.get(code_estado_lote='por_vencer')
             else:
                 self.idestado_lote = Estado_lotes.objects.get(code_estado_lote='vigente')

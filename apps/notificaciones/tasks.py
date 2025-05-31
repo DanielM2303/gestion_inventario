@@ -48,7 +48,7 @@ def verificar_estado_lotes():
         # Por el contrario
         else:
             dias_restantes = (lote.fecha_caducidad - timezone.now().date()).days
-            dias_por_vencer = Empresas.objects.get(idempresa=100).dias_por_vencer_general or 10
+            dias_por_vencer = Empresas.objects.get(idempresa=100).dias_por_vencer_general or 5
             
             # Vencido si quedan menos de 0 días y estado 'vencido'
             if dias_restantes <= 0 and not lote.idestado_lote.code_estado_lote == 'vencido':

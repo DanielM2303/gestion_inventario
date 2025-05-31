@@ -120,21 +120,21 @@ WSGI_APPLICATION = 'proyectoDjango.wsgi.application'
 #     },
 # }
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.environ.get('DATABASE_URL', 'postgres://postgres:Daniel12@localhost:5432/control_inventario'),
-#         conn_max_age=600
-#     )
-# }
-
-
-# DESPLIEGUE RENDER
 DATABASES = {
     'default': dj_database_url.config(
-        default= 'postgresql://postgres:postgres@localhost/postgres',
+        default=os.environ.get('DATABASE_URL', 'postgresql://postgres.xfxkyywwhqpchvfkoucn:0944345685@aws-0-us-east-1.pooler.supabase.com:5432/postgres'),
         conn_max_age=600
     )
 }
+
+
+# DESPLIEGUE RENDER
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default= 'postgresql://postgres:postgres@localhost/postgres',
+#         conn_max_age=600
+#     )
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

@@ -1,7 +1,28 @@
 from django.forms import ModelForm, ValidationError
-from apps.articulos.models import Articulos
+from apps.articulos.models import Articulos, Givas
 from django import forms
 from decimal import Decimal
+
+
+# Clase Formulario de Graba Iva
+class GivasForm(ModelForm):
+    def clean_valoriva(self):
+        valoriva = self.cleaned_data.get('valoriva')
+        if valoriva < 0:
+            raise ValidationError("El valor del IVA no puede ser menor que 0")
+        if valoriva > 99:
+            raise ValidationError("El valor del IVA no puede ser mayor que 99")
+        return valoriva
+    
+    def __init__(self, *args, **kwargs):
+        super(GivasForm, self).__init__(*args, **kwargs)
+        # Personalización de los widgets
+        self.fields['valoriva'].widget.attrs.update({'min': '0', 'max': '100', 'placeholder': 'Ingresa el valor del IVA'})
+        self.fields['descripcion_giva'].widget.attrs.update({'placeholder': 'Ingresa la descripción del IVA'})
+
+    class Meta:
+        model = Givas
+        fields = '__all__'
 
 # Clase Formulario Articulo
 class ArticulosForm(ModelForm):
@@ -42,9 +63,9 @@ class ArticulosForm(ModelForm):
         tiene_semaforo = self.cleaned_data['tiene_semaforo']
         if idtipoarticulo.idtipoarticulo == 1:
             if not tiene_semaforo:
-                raise ValidationError("El campo 'Requiere semáforo nutricional' es obligatorio.")
+                raise ValidationError("El campo 'Habilitar Semáforo Nutricional' es obligatorio.")
         if tiene_semaforo and (not self.cleaned_data['idnivelgrasa'] or not self.cleaned_data['idnivelazucar'] or not self.cleaned_data['idnivelsal']):
-            raise ValidationError("Si seleccionas 'Requiere semáforo nutricional', debes seleccionar cada nivel nutricional.")
+            raise ValidationError("Al habilitar el semáforo nutricional, debes seleccionar cada nivel nutricional.")
         return tiene_semaforo
 
     def clean_utilidad(self):

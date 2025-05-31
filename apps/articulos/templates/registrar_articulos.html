@@ -77,7 +77,8 @@
                                     <i class="fas fa-image fa-lg text-info mr-2"></i>
                                     <h6 class="mb-0 text-info font-weight-bold">Imagen del Producto</h6>
                                 </div>
-                                
+                                <hr class="mt-2 mb-3">
+                                                                
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         {{ form.imagen|as_crispy_field }}
@@ -91,29 +92,26 @@
                                     <i class="fas fa-info-circle text-info mr-2"></i>
                                     <h6 class="mb-0 text-info font-weight-bold">Información General</h6>
                                 </div>
+                                <hr class="mt-2 mb-3">
                                 
                                 <!-- Campos generales -->
                                 <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-box input-iconfas"></i>
-                                            {{ form.descripcion_articulo|as_crispy_field }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        {{ form.estado_articulo|as_crispy_field }}
+                                    <div class="form-group col-md-12">
+                                        {{ form.descripcion_articulo|as_crispy_field }}
                                     </div>
                                 </div>
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-barcode input-iconfas"></i>
-                                            {{ form.codigoarticulo|as_crispy_field }}
-                                        </div>
+                                        {{ form.codigoarticulo|as_crispy_field }}
                                     </div>
                                     <div class="form-group col-md-6">
                                         {{ form.idcategoriaarticulo|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        {{ form.estado_articulo|as_crispy_field }}
                                     </div>
                                 </div>
 
@@ -140,7 +138,7 @@
                                     <div class="form-group col-md-6">
                                         <div class="custom-control custom-checkbox">
                                             {{ form.tiene_semaforo }}
-                                            <label class="custom-control-label" for="id_tiene_semaforo">¿Requiere tabla nutricional tipo semáforo?</label>
+                                            <label class="custom-control-label" for="id_tiene_semaforo">Habilitar Semáforo Nutricional</label>
                                         </div>
                                     </div>
                                 </div>
@@ -173,30 +171,22 @@
                                     <i class="fas fa-tags text-info mr-2"></i>
                                     <h6 class="mb-0 text-info font-weight-bold">Información Financiera</h6>
                                 </div>
+                                <hr class="mt-2 mb-3">
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         {{ form.idgiva|as_crispy_field }}
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-percent input-iconfas"></i>
-                                            {{ form.utilidad|as_crispy_field }}
-                                        </div>
+                                        {{ form.utilidad|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-dollar-sign input-iconfas"></i>
-                                            {{ form.costo|as_crispy_field }}
-                                        </div>
+                                        {{ form.costo|as_crispy_field }}
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-dollar-sign input-iconfas"></i>
-                                            {{ form.precioventa|as_crispy_field }}
-                                        </div>
+                                        {{ form.precioventa|as_crispy_field }}
                                     </div>
                                 </div>
                             </div>
@@ -207,6 +197,7 @@
                                     <i class="fas fa-warehouse text-info mr-2"></i>
                                     <h6 class="mb-0 text-info font-weight-bold">Gestión de Inventario</h6>
                                 </div>
+                                <hr class="mt-2 mb-3">
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -229,16 +220,10 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-exclamation-triangle input-iconfas"></i>
-                                            {{ form.stock_minimo|as_crispy_field }}
-                                        </div>
+                                        {{ form.stock_minimo|as_crispy_field }}
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <div class="input-with-iconfas">
-                                            <i class="fas fa-exclamation-triangle input-iconfas"></i>
-                                            {{ form.stock_maximo|as_crispy_field }}
-                                        </div>
+                                        {{ form.stock_maximo|as_crispy_field }}
                                     </div>
                                 </div>
                             </div>

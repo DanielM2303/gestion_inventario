@@ -49,6 +49,7 @@
                                 <div class="form-group">
                                     <label for="cliente">Cliente<span class="asteriskField">*</span></label>
                                     <select class="form-control form-control-sm" id="cliente" name="cliente" required>
+                                        <option value="" disabled selected>Seleccionar cliente</option>
                                         {% for cliente in lis_clientes %}
                                             <option value="{{ cliente.idcliente }}">{{ cliente.nombre_cliente }} / {{ cliente.numerodocumento }}</option>
                                         {% endfor %}
@@ -660,8 +661,8 @@
     $(document).ready(function () {
         // Inicializa Select2 en el campo con ID 'cliente'
         $('#cliente').select2({
+            theme: 'bootstrap4',
             placeholder: 'Seleccionar cliente: (nombre/Identificación)', // Texto del placeholder
-            allowClear: true, // Permite borrar la selección
             dropdownCssClass: 'custom-select2-dropdown', // Clase CSS personalizada para el menú desplegable
             width: '100%',
             language: {

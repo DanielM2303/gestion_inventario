@@ -9,12 +9,17 @@ body {
 
 .nav-tabs-bordered {
   border-bottom: 3px solid #ebeef4;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .nav-tabs-bordered .nav-link {
   margin-bottom: -3px;
   border: none;
   color: #2c384e;
+  flex-grow: 1;
+  text-align: center;
+  min-width: 120px; /* Ancho mínimo para cada pestaña */
 }
 
 .nav-tabs-bordered .nav-link:hover,
@@ -26,6 +31,23 @@ body {
   background-color: #fff;
   color: #4169E1;
   border-bottom: 3px solid #4169E1;
+}
+
+@media (max-width: 768px) {
+  .nav-tabs-bordered {
+    flex-direction: column;
+    border-bottom: none;
+  }
+  
+  .nav-tabs-bordered .nav-link {
+    margin-bottom: 5px;
+    border-bottom: 3px solid #ebeef4;
+    text-align: left;
+  }
+  
+  .nav-tabs-bordered .nav-link.active {
+    border-bottom: 3px solid #4169E1;
+  }
 }
 
 /* ==============================================
@@ -127,15 +149,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* =========================================================
     Estilos personalizados para los iconos dentro de los campos 
     ======================================================== */
-.input-with-iconfas {
+/* .input-with-iconfas {
   position: relative;
 }
 
 .input-iconfas {
   position: absolute;
   left: 10px;
-  top: 45px;
-  /* Valor fijo (en píxeles) que se debe ajustar según la altura de los input */
+  top: 46px;
+  Valor fijo (en píxeles) que se debe ajustar según la altura de los input 
   transform: translateY(-50%);
   color: #6c757d;
 }
@@ -146,7 +168,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .input-with-iconfas .invalid-feedback {
   position: relative;
-}
+} */
 
 /* =================================================== 
     Estilos específicos para campos dentro del contenedor 
@@ -165,7 +187,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .container-fluid input[type="time"],
 .container-fluid select {
   font-size: 14px;
-  height: 31px;
+  height: 35px;
   color: #545151 !important;
 }
 
@@ -256,25 +278,34 @@ textarea {
 
 
 /* =========================
-   Estilos modernos para Select2
+   Estilos modernos para Select2 (Bootstrap4 Theme)
    ========================= */
 
 /* Contenedor principal */
-.select2-container--default {
+.select2-container--bootstrap4 {
   font-size: 14px;
 }
 
+/* Estilo suave para el select cuando está enfocado - prioridad sobre Bootstrap */
+.select2-container--bootstrap4 .select2-selection--single:focus,
+.select2-container--bootstrap4.select2-container--open .select2-selection--single {
+  border-color: #a8c0ff !important;
+  box-shadow: 0 0 0 0.1rem rgba(168, 192, 255, 0.3) !important;
+  z-index: 1051; /* Mayor que el z-index de modales de Bootstrap (1050) */
+}
+
 /* Buscador dentro del dropdown */
-.select2-container--default .select2-search--dropdown .select2-search__field {
-  border: 1px solid #d1d5db;
+.select2-container--bootstrap4 .select2-search--dropdown .select2-search__field {
+  border: 1px solid #abb9ce;
   border-radius: 4px;
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s;
 }
 
-.select2-container--default .select2-search--dropdown .select2-search__field:focus {
-  border-color: #4169E1;
+.select2-container--bootstrap4 .select2-search--dropdown .select2-search__field:focus {
+  border-color: #a8c0ff;
+  box-shadow: 0 0 0 0.1rem rgba(168, 192, 255, 0.3);
 }
 
 

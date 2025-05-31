@@ -249,16 +249,28 @@
                     </div>
 
                     <!-- Lista Detalles lotes agregar dinamicamente -->
-                    <div class="mb-2">
+                    <div class="mb-2 d-flex align-items-center">
                         <button type="button" class="btn btn-primary btn-sm" id="btnAgregarFila{{ prod.idarticulo }}"><i class="fas fa-plus"></i> Agregar Lote</button>
+                        <div class="ml-3 d-none" id="tiempoVidaUtil{{ prod.idarticulo }}">
+                            <select class="form-control form-control-sm" style="width: 170px;" id="tiempoVidaUtil{{ prod.idarticulo }}">
+                                <option value="" selected>Seleccione Vigencia</option>
+                                <option value="dias">Días</option>
+                                <option value="semanas">Semanas</option>
+                                <option value="meses">Meses</option>
+                                <option value="años">Años</option>
+                            </select>
+                        </div>
+                        <div class="ml-2 d-none" id="valorTiempo{{ prod.idarticulo }}">
+                            <input type="number" class="form-control form-control-sm" style="width: 90px;" min="1" readonly placeholder="Valor">
+                        </div>
                     </div>
                     <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
                         <table class="table table-bordered" id="detalleLoteTable{{ prod.idarticulo }}" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th class="col-4">Número Lote</th>
-                                    <th class="col-2">Cantidad</th>
-                                    <th class="col-2">Fabricado</th>
+                                    <th class="col-4">Número/Código<span class="asteriskField">*</span></th>
+                                    <th class="col-2">Cantidad<span class="asteriskField">*</span></th>
+                                    <th class="col-2">Fabricado<span class="asteriskField">*</span></th>
                                     <th class="col-2">Caducado</th>
                                     <th class="col-1"></th> <!-- Eliminar -->
                                 </tr>
@@ -332,6 +344,10 @@
                         isValid = false;
                     } else {
                         cantidadTotalLotes += parseFloat(cantidadInput.val()) || 0;
+                    }
+                    if (fechaFabricacionInput.val().trim() === '') {
+                        fechaFabricacionInput.closest('td').append('<div class="error-message" style="color: red; font-size: 12px;"><strong>Campo obligatorio.</strong></div>');
+                        isValid = false;
                     }
                     if (caduca === 'True' && fechaCaducidadInput.val().trim() === '') {
                         fechaCaducidadInput.closest('td').append('<div class="error-message" style="color: red; font-size: 12px;"><strong>Campo obligatorio.</strong></div>');
@@ -578,8 +594,8 @@
     $(document).ready(function () {
         // Inicializa Select2 en el campo con ID 'cliente'
         $('#proveedor').select2({
+            theme: 'bootstrap4',
             placeholder: 'Seleccionar proveedor: (nombre/RUC)', // Texto del placeholder
-            allowClear: true, // Permite borrar la selección
             dropdownCssClass: 'custom-select2-dropdown', // Clase CSS personalizada para el menú desplegable
             width: '100%',
             language: {
@@ -613,6 +629,10 @@
             var modalId = modal.attr('id');
             modal.find('[id^="detalleLoteTable"] tbody').empty(); // Vaciar las filas
         });
+
+        // limpiar select y input de tiempo vida util
+        $('[id^="tiempoVidaUtil"]').val('');
+        $('[id^="valorTiempo"] input').val('');
 
         // Habilitar el botón de envío del formulario
         $('#botonEnviar').prop('disabled', false);
@@ -664,6 +684,73 @@
             });
             if (caduca === 'False') {
                 $('#modalDetallesProducto' + productoId).find('input[name="fecha_caducidad[]"]').prop('readonly', true);
+                $('#tiempoVidaUtil' + productoId).addClass('d-none');
+                $('#valorTiempo' + productoId).addClass('d-none');
+            }else{
+                $('#modalDetallesProducto' + productoId).find('input[name="fecha_caducidad[]"]').prop('readonly', false);
+                $('#tiempoVidaUtil' + productoId).removeClass('d-none');
+                $('#valorTiempo' + productoId).removeClass('d-none');
+                $('#valorTiempo' + productoId + ' input').prop('readonly', false);
+
+                // Evento para actualizar fecha caducidad cuando cambia tiempo vida util
+                $(document).on('change', '#tiempoVidaUtil' + productoId + ' select', function(){
+                    var tiempoVidaUtil = $(this).find('option:selected').val();
+                    var modal = $('#modalDetallesProducto' + productoId);
+                    $('#valorTiempo' + productoId + ' input').val('');
+                    
+                    $('#valorTiempo' + productoId + ' input').off('change keyup').on('change keyup', function(){
+                        var valor = parseInt($(this).val());
+                        if (!isNaN(valor)) {
+                            // Recorrer todas las filas de la tabla de lotes
+                            modal.find('#detalleLoteTable' + productoId + ' tbody tr').each(function() {
+                                var row = $(this);
+                                var fechaFabricacion = row.find('input[name="fecha_fabricacion[]"]').val();
+                                var inputCaducidad = row.find('input[name="fecha_caducidad[]"]');
+                                
+                                if (fechaFabricacion) {
+                                    var nuevaFecha = new Date(fechaFabricacion);
+                                    
+                                    if (tiempoVidaUtil === 'dias') {
+                                        nuevaFecha.setDate(nuevaFecha.getDate() + valor);
+                                    } else if (tiempoVidaUtil === 'semanas') {
+                                        nuevaFecha.setDate(nuevaFecha.getDate() + (valor * 7));
+                                    } else if (tiempoVidaUtil === 'meses') {
+                                        nuevaFecha.setMonth(nuevaFecha.getMonth() + valor);
+                                    } else if (tiempoVidaUtil === 'años') {
+                                        nuevaFecha.setFullYear(nuevaFecha.getFullYear() + valor);
+                                    }
+                                    
+                                    inputCaducidad.val(nuevaFecha.toISOString().split('T')[0]);
+                                }
+                            });
+                        }
+                    });
+                });
+
+                // Evento para actualizar fecha caducidad cuando cambia fecha fabricación
+                $(document).on('change', '#detalleLoteTable' + productoId + ' input[name="fecha_fabricacion[]"]', function() {
+                    var tiempoVidaUtil = $('#tiempoVidaUtil' + productoId + ' select').val();
+                    var valorTiempo = parseInt($('#valorTiempo' + productoId + ' input').val());
+                    var row = $(this).closest('tr');
+                    var inputCaducidad = row.find('input[name="fecha_caducidad[]"]');
+                    var fechaFabricacion = $(this).val();
+                    
+                    if (tiempoVidaUtil && !isNaN(valorTiempo) && fechaFabricacion) {
+                        var nuevaFecha = new Date(fechaFabricacion);
+                        
+                        if (tiempoVidaUtil === 'dias') {
+                            nuevaFecha.setDate(nuevaFecha.getDate() + valorTiempo);
+                        } else if (tiempoVidaUtil === 'semanas') {
+                            nuevaFecha.setDate(nuevaFecha.getDate() + (valorTiempo * 7));
+                        } else if (tiempoVidaUtil === 'meses') {
+                            nuevaFecha.setMonth(nuevaFecha.getMonth() + valorTiempo);
+                        } else if (tiempoVidaUtil === 'años') {
+                            nuevaFecha.setFullYear(nuevaFecha.getFullYear() + valorTiempo);
+                        }
+                        
+                        inputCaducidad.val(nuevaFecha.toISOString().split('T')[0]);
+                    }
+                });
             }
         }
     });
@@ -999,266 +1086,3 @@
 
 
 
-
-
-
-
-<!--
-<script>
-    $(document).ready(function () {
-        $('.com_agregar-producto').click(function () {
-            var nombreProducto = $(this).data('nombre');
-            var stockProducto = $(this).data('stock');
-            var idarticuloProducto = $(this).data('idarticulo');
-
-            // Verificar si el producto ya está en la tabla de detalles
-            if (!productoYaAgregado(idarticuloProducto)) {
-                var precioProducto = $(this).data('precio');
-                givaProducto = parseFloat($(this).data('giva')) || 0;
-                precioProducto = parseFloat(precioProducto.replace(',', '.'));
-                precioProducto = precioProducto.toFixed(2);
-
-                // Calcular el valor directamente
-                var cantidad = 1; // Establecer un valor predeterminado o modificar según
-                var valor = cantidad * precioProducto;
-                valor = valor.toFixed(2);
-                if (givaProducto !== 0){
-                    givaProducto = givaProducto / 100; //
-                } else {
-                    givaProducto = 0.00;
-                }
-                // Agregar la fila a la tabla de detalles
-                $('#com_detalleProductosTable tbody').append(
-                    '<tr>' +
-                    '<td>' + nombreProducto + '</td>' +
-                    '<td><input type="number" class="form-control form-control-sm" name="cantidad[]" value="' + cantidad + '" onchange="calcularTotal(this)" oninput="validarCantidad(this)" required min="0"></td>' +
-                    '<td><input style="cursor: not-allowed;" type="number" step="0.01" class="form-control form-control-sm" name="precio_unitario[]" value="' + precioProducto + '" readonly></td>' +
-                    '<td><input style="cursor: not-allowed;" type="number" step="0.01" class="form-control form-control-sm" name="valor[]" value="' + valor + '" readonly></td>' +
-                    '<td class="text-center"><button type="button" class="btn btn-outline-danger btn-sm" onclick="eliminarFila(this)"><i class="fas fa-trash-alt"></i></button></td>' +
-                    '<td style="display: none;"><input type="hidden" class="form-control form-control-sm" name="giva[]" value="' + givaProducto + '" readonly></td>' +
-                    '<td style="display: none;"><input type="hidden" class="form-control form-control-sm" name="idarticulo[]" value="' + idarticuloProducto + '" readonly></td>' +
-                    '<td style="display: none;"><input type="hidden" class="form-control form-control-sm" name="stock[]" value="' + stockProducto + '" readonly></td>' +
-                    '</tr>'
-                );
-                calcularTotales();
-            }
-        });
-
-        // Función para verificar si el producto ya está en la tabla de detalles
-        function productoYaAgregado(idarticulo) {
-            var productosAgregados = $('#com_detalleProductosTable tbody input[name="idarticulo[]"]').map(function () {
-                return $(this).val().trim();
-            }).get();
-            return productosAgregados.includes(String(idarticulo));
-        }
-
-        // Advertencia
-        $('form#compraForm').submit(function (e) {
-            // Verificar si no hay productos en la tabla de detalles
-            if ($('#com_detalleProductosTable tbody tr').length === 0) {
-                // Mostrar la ventana emergente
-                Swal.fire({
-                    title: 'Advertencia',
-                    text: 'No puedes registrar una venta sin seleccionar al menos un producto.',
-                    icon: 'warning',
-                    confirmButtonColor: '#4169E1',
-                    confirmButtonText: 'Aceptar'
-                });
-                // Detener el envío del formulario
-                e.preventDefault();
-            }
-        });
-    });
-
-    // Función para eliminar la fila
-    function eliminarFila(button) {
-        $(button).closest('tr').remove();
-        calcularTotales();// No llamamos a calcularTotales aquí para evitar redundancias
-    }
-
-    function calcularTotal(input) {
-        var fila = $(input).closest('tr');
-        var cantidad = parseFloat(fila.find('input[name="cantidad[]"]').val()) || 0;
-        var precioUnitario = parseFloat(fila.find('input[name="precio_unitario[]"]').val()) || 0;
-    
-        var valor = cantidad * precioUnitario;
-    
-        fila.find('input[name="valor[]"]').val(valor.toFixed(2));
-        calcularTotales();
-    }
-
-    // Función para calcular totales
-    function calcularTotales() {
-        var comsubtotal0 = 0;
-        var comsubtotal12 = 0;
-        var comsubtotal = 0;
-        var valorIVA = 0;
-        var ivageneral = 0.00;
-
-        // Iterar sobre las filas de la tabla de detalles
-        $('#com_detalleProductosTable tbody tr').each(function () {
-            var cantidad = parseFloat($(this).find('input[name="cantidad[]"]').val()) || 0;
-            var valor = parseFloat($(this).find('input[name="valor[]"]').val()) || 0;
-            var giva = parseFloat($(this).find('input[name="giva[]"]').val()) || 0;
-
-            if (giva === 0.00) {
-                comsubtotal0 += valor;
-            } else {
-                comsubtotal12 += valor;
-                ivageneral = giva; //
-            }
-
-            comsubtotal += valor;
-        });
-
-        valorIVA = comsubtotal12 * ivageneral; //
-
-        // Actualizar los campos de totales
-        $('#comsubtotal0').val(comsubtotal0.toFixed(2));
-        $('#comsubtotal12').val(comsubtotal12.toFixed(2));
-        $('#comsubtotal').val(comsubtotal.toFixed(2));
-        $('#comvaloriva').val(valorIVA.toFixed(2));
-
-        // Calcular el total
-        var comtotal = comsubtotal + valorIVA;
-        $('#comtotal').val(comtotal.toFixed(2));
-    }
-
-    function validarCantidad(input) {
-        var valorSinComa = input.value.replace(/,/g, '');
-        var cantidad = parseInt(valorSinComa);
-    
-        // Verificar que la cantidad no sea negativa ni neutra y que sea un entero
-        if (cantidad == 0) {
-            input.value = '';
-        } else {
-            input.value = cantidad.toLocaleString();
-        }
-        calcularTotal(input);
-    }
-    
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('#dataTableArt').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": false,
-            "info": true,
-            "autoWidth": true,
-            "lengthMenu": [[8, 16, 24, -1], [8, 16, 24, "Mostrar Todo"]],
-            "pageLength": 8, // Muestra 8 registros por página por defecto
-            "dom": '<"row"<"col-md-6"l><"col-md-6"f>>Brtip',
-            "columnDefs": [
-                { "orderable": false, "targets": -1 },  // Deshabilitar ordenación en la última columna
-                { "searchable": false, "targets": -1 }  // Deshabilitar búsqueda en la última columna
-            ],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún registro disponible",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-    });
-</script>
-
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-
-<script>
-    $(document).ready(function () {
-        // Inicializa Select2 en el campo con ID 'cliente'
-        $('#proveedor').select2({
-            placeholder: 'Seleccionar proveedor', // Texto del placeholder
-            allowClear: true, // Permite borrar la selección
-            dropdownCssClass: 'custom-select2-dropdown', // Clase CSS personalizada para el menú desplegable
-            width: '100%',
-            language: {
-                noResults: function () {
-                    return 'No se encontraron resultados';
-                },
-                searching: function () {
-                    return 'Buscando...';
-                },
-            }
-        });
-    });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-{% comment %} Limpiar formulario {% endcomment %}
-<script>
-    function limpiarFormulario() {
-        // Limpiar campos de texto y selección
-        $('#comconcepto').val('');
-        $('#proveedor').val('').trigger('change');
-
-        // Limpiar la tabla de detalles
-        $('#com_detalleProductosTable tbody').empty();
-
-        // Limpiar campos de totales
-        $('#comsubtotal0, #comsubtotal12, #comsubtotal, #comvaloriva, #comtotal').val('');
-
-        // Habilitar el botón de envío del formulario
-        $('#botonEnviar').prop('disabled', false);
-    }
-</script>
-
-{% comment %} Fecha actual obtener {% endcomment %}
-<script>
-    var fechaActual = new Date();
-    var dd = String(fechaActual.getDate()).padStart(2, '0');
-    var mm = String(fechaActual.getMonth() + 1).padStart(2, '0');
-    var yyyy = fechaActual.getFullYear();
-    fechaActual = yyyy + '-' + mm + '-' + dd;
-    document.getElementById('fecha_entrada').min = fechaActual;
-    document.getElementById('fecha_entrada').value = fechaActual;
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-        {% if messages %}
-            {% for m in messages %}
-                {% if m.tags == 'success' %}
-                    Swal.fire({
-                        title: "{{m}}",
-                        icon: "success",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#4169E1"
-                    });
-                {% elif m.tags == 'error' %}
-                    Swal.fire({
-                        title: "{{m}}",
-                        icon: "error",
-                        confirmButtonText: "Aceptar",
-                        confirmButtonColor: "#4169E1"
-                    });
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-</script> -->

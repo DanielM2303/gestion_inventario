@@ -31,10 +31,7 @@
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <div class="input-with-iconfas">
-                                    <i class="fas fa-user input-iconfas"></i>
-                                    {{ form.username | as_crispy_field }}
-                                </div>
+                                {{ form.username | as_crispy_field }}
                             </div>
                             <div class="form-group col-md-6">
                                 {{ form.groups | as_crispy_field }}
@@ -42,42 +39,24 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <div class="input-with-iconfas">
-                                    <i class="fas fa-signature input-iconfas"></i>
-                                    {{ form.first_name | as_crispy_field }}
-                                </div>
+                                {{ form.first_name | as_crispy_field }}
                             </div>
                             <div class="form-group col-md-6">
-                                <div class="input-with-iconfas">
-                                    <i class="fas fa-signature input-iconfas"></i>
-                                    {{ form.last_name | as_crispy_field }}
-                                </div>
+                                {{ form.last_name | as_crispy_field }}
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-envelope input-iconfas"></i>
-                                {{ form.email | as_crispy_field }}
-                            </div>
+                            {{ form.email | as_crispy_field }}
                         </div>
                         <div class="form-group">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-map-marker-alt input-iconfas"></i>
-                                {{ form.direccion | as_crispy_field }}
-                            </div>
+                            {{ form.direccion | as_crispy_field }}
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <div class="input-with-iconfas">
-                                    <i class="fas fa-phone input-iconfas"></i>
-                                    {{ form.telefono | as_crispy_field }}
-                                </div>
+                                {{ form.telefono | as_crispy_field }}
                             </div>
                             <div class="form-group col-md-6">
-                                <div class="input-with-iconfas">
-                                    <i class="fas fa-mobile-alt input-iconfas"></i>
-                                    {{ form.celular | as_crispy_field }}
-                                </div>
+                                {{ form.celular | as_crispy_field }}
                             </div>
                         </div>
                         <div class="form-row">
@@ -115,16 +94,10 @@
                     <form method="POST" action="" id="FormPassword">
                         {% csrf_token %}
                         <div class="form-group col-md-12">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-lock input-iconfas"></i>
-                                {{ user_password_form.password1 | as_crispy_field }}
-                            </div>
+                            {{ user_password_form.password1 | as_crispy_field }}
                         </div>
                         <div class="form-group col-md-12">
-                            <div class="input-with-iconfas">
-                                <i class="fas fa-lock input-iconfas"></i>
-                                {{ user_password_form.password2 | as_crispy_field }}
-                            </div>
+                            {{ user_password_form.password2 | as_crispy_field }}
                         </div>
                         <!-- Campo oculto para indicar acción -->
                         <input type="hidden" name="user_change_password" value="1">

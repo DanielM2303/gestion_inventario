@@ -8,7 +8,7 @@ class LotesForm(forms.ModelForm):
         model = Lotes
         fields = ['numero_lote', 'fecha_fabricacion', 'fecha_caducidad', 'cantidad']
         widgets = {
-            'fecha_fabricacion': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_fabricacion': forms.DateInput(attrs={'type': 'date', 'readonly': 'readonly', 'style': 'cursor: not-allowed;'}),
             'fecha_caducidad': forms.DateInput(attrs={'readonly': 'readonly', 'type': 'date', 'style': 'cursor: not-allowed;'}),
             'cantidad': forms.NumberInput(attrs={'readonly': 'readonly', 'style': 'cursor: not-allowed;'}),
         }
@@ -26,11 +26,4 @@ class LotesForm(forms.ModelForm):
         if self.instance: 
             if self.instance.fecha_caducidad:
                 self.initial['fecha_caducidad'] = self.instance.fecha_caducidad.strftime('%Y-%m-%d')
-
-        # Limitar fecha_fabricacion según fecha_caducidad
-        if self.instance.fecha_caducidad:
-            fecha_max = (datetime.strptime(self.initial['fecha_caducidad'], '%Y-%m-%d') - timedelta(days=1)).strftime('%Y-%m-%d')
-            self.fields['fecha_fabricacion'].widget = forms.DateInput(
-                attrs={'type': 'date', 'max': fecha_max, 'class': 'form-control'}
-            )
             

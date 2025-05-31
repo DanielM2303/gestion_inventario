@@ -233,7 +233,8 @@
 <!-- Select2 para campos de select -->
 <script>
     $(document).ready(function () {
-        $('.custom-select').select2({
+        $('.custom-select').not('.dataTables_wrapper .custom-select').select2({
+            theme: 'bootstrap4',
             allowClear: false,
             width: '100%',
             language: {
